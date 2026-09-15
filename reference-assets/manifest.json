@@ -1,0 +1,1277 @@
+{
+  "assets": [
+    {
+      "contentType": "font/woff2",
+      "id": "349095a414e0eec7",
+      "kind": "font",
+      "name": "797e433ab948586e-s.p.1v5bejj26fx9h.woff2",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/349095a414e0eec7.woff2",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/static/immutable/media/797e433ab948586e-s.p.1v5bejj26fx9h.woff2"
+    },
+    {
+      "contentType": "text/css",
+      "id": "8b1a9376828b8cd2",
+      "kind": "stylesheet",
+      "name": "0zfrfa8pvzmmd.css",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8b1a9376828b8cd2.css",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/static/immutable/chunks/0zfrfa8pvzmmd.css"
+    },
+    {
+      "contentType": "font/woff2",
+      "id": "a2bc5567502479a1",
+      "kind": "font",
+      "name": "caa3a2e1cccd8315-s.p.0zr6hhvz-h9nw.woff2",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a2bc5567502479a1.woff2",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/static/immutable/media/caa3a2e1cccd8315-s.p.0zr6hhvz-h9nw.woff2"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "a3b379015092661a",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a3b379015092661a",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1485846234645-a62644f84728%3Fw%3D640%26q%3D75%26auto%3Dformat%26fit%3Dcrop&w=640&q=75"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "ecc2a3b08cbc4965",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/ecc2a3b08cbc4965",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1485846234645-a62644f84728%3Fw%3D160%26h%3D160%26q%3D70%26auto%3Dformat%26fit%3Dcrop&w=48&q=75"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "fe3f830059e9bbf5",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/fe3f830059e9bbf5",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1561070791-2526d30994b5%3Fw%3D160%26h%3D160%26q%3D70%26auto%3Dformat%26fit%3Dcrop&w=48&q=75"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "0c7803c0c755897d",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0c7803c0c755897d",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1561070791-2526d30994b5%3Fw%3D640%26q%3D75%26auto%3Dformat%26fit%3Dcrop&w=640&q=75"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "4ea71b006c5b080b",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/4ea71b006c5b080b",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1450101499163-c8848c66ca85%3Fw%3D640%26q%3D75%26auto%3Dformat%26fit%3Dcrop&w=640&q=75"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "e0ee6c298dd3f42c",
+      "kind": "image",
+      "name": "icon.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/e0ee6c298dd3f42c.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/icon.svg?icon.2idc4tqnqlkl5.svg"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "c759fdceb46f35c6",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c759fdceb46f35c6",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1500530855697-b586d89ba3ee%3Fw%3D160%26h%3D160%26q%3D70%26auto%3Dformat%26fit%3Dcrop&w=48&q=75"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "8d49b1d0f45fe41c",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8d49b1d0f45fe41c",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1517048676732-d65bc937f952%3Fw%3D160%26h%3D160%26q%3D70%26auto%3Dformat%26fit%3Dcrop&w=48&q=75"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "46fa1eb6bda39b72",
+      "kind": "image",
+      "name": "arcline.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/46fa1eb6bda39b72.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/arcline.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "07cc3f06b04a5a84",
+      "kind": "image",
+      "name": "monostudio.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/07cc3f06b04a5a84.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/monostudio.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "3656b64efe4261f2",
+      "kind": "image",
+      "name": "northwind.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/3656b64efe4261f2.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/northwind.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "63be3ef47d928073",
+      "kind": "image",
+      "name": "halcyon.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/63be3ef47d928073.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/halcyon.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1b207795ce63b392",
+      "kind": "image",
+      "name": "fieldnotes.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1b207795ce63b392.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/fieldnotes.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "289f1f08f987bcc3",
+      "kind": "image",
+      "name": "bloomco.svg",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/289f1f08f987bcc3.svg",
+      "url": "https://rbp-cloudlight-template.vercel.app/logos/bloomco.svg?dpl=dpl_9vFkpJNHXagGo3Y14wYALXJGTb6A"
+    },
+    {
+      "contentType": "image/webp",
+      "id": "be995a351770ec2b",
+      "kind": "image",
+      "name": "image",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/be995a351770ec2b",
+      "url": "https://rbp-cloudlight-template.vercel.app/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1492691527719-9d1e07e534b4%3Fw%3D800%26q%3D75%26auto%3Dformat%26fit%3Dcrop&w=384&q=75"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "87e573526e87426c",
+      "kind": "image",
+      "name": "svg-1",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/87e573526e87426c.svg",
+      "url": "inline-svg:87e573526e87426c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0b8d6a659be49c43",
+      "kind": "image",
+      "name": "svg-2",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0b8d6a659be49c43.svg",
+      "url": "inline-svg:0b8d6a659be49c43"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "47a17a82883ee678",
+      "kind": "image",
+      "name": "svg-3",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/47a17a82883ee678.svg",
+      "url": "inline-svg:47a17a82883ee678"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "416d1ed2b144fd95",
+      "kind": "image",
+      "name": "svg-4",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/416d1ed2b144fd95.svg",
+      "url": "inline-svg:416d1ed2b144fd95"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "500b82e308aec009",
+      "kind": "image",
+      "name": "svg-5",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/500b82e308aec009.svg",
+      "url": "inline-svg:500b82e308aec009"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "cecffec2e1271bba",
+      "kind": "image",
+      "name": "svg-6",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/cecffec2e1271bba.svg",
+      "url": "inline-svg:cecffec2e1271bba"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d7b6258f3080bd4d",
+      "kind": "image",
+      "name": "svg-7",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d7b6258f3080bd4d.svg",
+      "url": "inline-svg:d7b6258f3080bd4d"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "66b2c19f086c9cad",
+      "kind": "image",
+      "name": "svg-8",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/66b2c19f086c9cad.svg",
+      "url": "inline-svg:66b2c19f086c9cad"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8e92566ccae89676",
+      "kind": "image",
+      "name": "svg-9",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8e92566ccae89676.svg",
+      "url": "inline-svg:8e92566ccae89676"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "6d1adfacf44b15e3",
+      "kind": "image",
+      "name": "svg-10",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/6d1adfacf44b15e3.svg",
+      "url": "inline-svg:6d1adfacf44b15e3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "87dc9feb2d9af01f",
+      "kind": "image",
+      "name": "svg-11",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/87dc9feb2d9af01f.svg",
+      "url": "inline-svg:87dc9feb2d9af01f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "baa37951f1c6bdd8",
+      "kind": "image",
+      "name": "svg-12",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/baa37951f1c6bdd8.svg",
+      "url": "inline-svg:baa37951f1c6bdd8"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f1967bd7eef5c4ae",
+      "kind": "image",
+      "name": "svg-13",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f1967bd7eef5c4ae.svg",
+      "url": "inline-svg:f1967bd7eef5c4ae"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "2abadfcd0b69d572",
+      "kind": "image",
+      "name": "svg-14",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/2abadfcd0b69d572.svg",
+      "url": "inline-svg:2abadfcd0b69d572"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a496a92213c7a2e2",
+      "kind": "image",
+      "name": "svg-15",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a496a92213c7a2e2.svg",
+      "url": "inline-svg:a496a92213c7a2e2"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b5db06ebb248563e",
+      "kind": "image",
+      "name": "svg-16",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b5db06ebb248563e.svg",
+      "url": "inline-svg:b5db06ebb248563e"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "5a3fb079df673f64",
+      "kind": "image",
+      "name": "svg-17",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/5a3fb079df673f64.svg",
+      "url": "inline-svg:5a3fb079df673f64"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "748641e994de616d",
+      "kind": "image",
+      "name": "svg-18",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/748641e994de616d.svg",
+      "url": "inline-svg:748641e994de616d"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "92aff16f85148614",
+      "kind": "image",
+      "name": "svg-19",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/92aff16f85148614.svg",
+      "url": "inline-svg:92aff16f85148614"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1cc044b432b33b7c",
+      "kind": "image",
+      "name": "svg-20",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1cc044b432b33b7c.svg",
+      "url": "inline-svg:1cc044b432b33b7c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "fe01a07e567405d3",
+      "kind": "image",
+      "name": "svg-21",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/fe01a07e567405d3.svg",
+      "url": "inline-svg:fe01a07e567405d3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0b8aa9b11e761db2",
+      "kind": "image",
+      "name": "svg-22",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0b8aa9b11e761db2.svg",
+      "url": "inline-svg:0b8aa9b11e761db2"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f6cec510453dd29c",
+      "kind": "image",
+      "name": "svg-23",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f6cec510453dd29c.svg",
+      "url": "inline-svg:f6cec510453dd29c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1c38f1f60e850b9b",
+      "kind": "image",
+      "name": "svg-24",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1c38f1f60e850b9b.svg",
+      "url": "inline-svg:1c38f1f60e850b9b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c82095b519f01db1",
+      "kind": "image",
+      "name": "svg-25",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c82095b519f01db1.svg",
+      "url": "inline-svg:c82095b519f01db1"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "629c152ac500c251",
+      "kind": "image",
+      "name": "svg-26",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/629c152ac500c251.svg",
+      "url": "inline-svg:629c152ac500c251"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "2c4e5cd152591f0b",
+      "kind": "image",
+      "name": "svg-27",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/2c4e5cd152591f0b.svg",
+      "url": "inline-svg:2c4e5cd152591f0b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d61c12b9dba9279f",
+      "kind": "image",
+      "name": "svg-28",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d61c12b9dba9279f.svg",
+      "url": "inline-svg:d61c12b9dba9279f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "772e11433b5a3e48",
+      "kind": "image",
+      "name": "svg-29",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/772e11433b5a3e48.svg",
+      "url": "inline-svg:772e11433b5a3e48"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "7558b2eb56deff93",
+      "kind": "image",
+      "name": "svg-30",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/7558b2eb56deff93.svg",
+      "url": "inline-svg:7558b2eb56deff93"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b6fb373e9a3d0aea",
+      "kind": "image",
+      "name": "svg-31",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b6fb373e9a3d0aea.svg",
+      "url": "inline-svg:b6fb373e9a3d0aea"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8c3655e60aca9dc7",
+      "kind": "image",
+      "name": "svg-32",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8c3655e60aca9dc7.svg",
+      "url": "inline-svg:8c3655e60aca9dc7"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "04c10787a9995c50",
+      "kind": "image",
+      "name": "svg-33",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/04c10787a9995c50.svg",
+      "url": "inline-svg:04c10787a9995c50"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "bb811735e04c8c61",
+      "kind": "image",
+      "name": "svg-34",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/bb811735e04c8c61.svg",
+      "url": "inline-svg:bb811735e04c8c61"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c3895b1d1ac963f8",
+      "kind": "image",
+      "name": "svg-35",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c3895b1d1ac963f8.svg",
+      "url": "inline-svg:c3895b1d1ac963f8"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c1e8b65f6bc1ca0e",
+      "kind": "image",
+      "name": "svg-36",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c1e8b65f6bc1ca0e.svg",
+      "url": "inline-svg:c1e8b65f6bc1ca0e"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "84d19d01e6bd884b",
+      "kind": "image",
+      "name": "svg-37",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/84d19d01e6bd884b.svg",
+      "url": "inline-svg:84d19d01e6bd884b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "e5ec938f8ba7d7ed",
+      "kind": "image",
+      "name": "svg-38",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/e5ec938f8ba7d7ed.svg",
+      "url": "inline-svg:e5ec938f8ba7d7ed"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a1e9abacfa335ec2",
+      "kind": "image",
+      "name": "svg-39",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a1e9abacfa335ec2.svg",
+      "url": "inline-svg:a1e9abacfa335ec2"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "865f1d62bf06aa86",
+      "kind": "image",
+      "name": "svg-40",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/865f1d62bf06aa86.svg",
+      "url": "inline-svg:865f1d62bf06aa86"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8f15023578c3e28c",
+      "kind": "image",
+      "name": "svg-41",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8f15023578c3e28c.svg",
+      "url": "inline-svg:8f15023578c3e28c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "7c6ac59de8bdda68",
+      "kind": "image",
+      "name": "svg-42",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/7c6ac59de8bdda68.svg",
+      "url": "inline-svg:7c6ac59de8bdda68"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "32a59df6bfc618c7",
+      "kind": "image",
+      "name": "svg-43",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/32a59df6bfc618c7.svg",
+      "url": "inline-svg:32a59df6bfc618c7"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "6589dbbaac33f7fe",
+      "kind": "image",
+      "name": "svg-44",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/6589dbbaac33f7fe.svg",
+      "url": "inline-svg:6589dbbaac33f7fe"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "7597148a0a24173b",
+      "kind": "image",
+      "name": "svg-45",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/7597148a0a24173b.svg",
+      "url": "inline-svg:7597148a0a24173b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d5fbb98473faf81e",
+      "kind": "image",
+      "name": "svg-46",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d5fbb98473faf81e.svg",
+      "url": "inline-svg:d5fbb98473faf81e"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1f7dac9f0150b881",
+      "kind": "image",
+      "name": "svg-47",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1f7dac9f0150b881.svg",
+      "url": "inline-svg:1f7dac9f0150b881"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "10d527f86bfa1a01",
+      "kind": "image",
+      "name": "svg-48",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/10d527f86bfa1a01.svg",
+      "url": "inline-svg:10d527f86bfa1a01"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f0bbaa61b3c74e6f",
+      "kind": "image",
+      "name": "svg-49",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f0bbaa61b3c74e6f.svg",
+      "url": "inline-svg:f0bbaa61b3c74e6f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "968c409faa183fa1",
+      "kind": "image",
+      "name": "svg-50",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/968c409faa183fa1.svg",
+      "url": "inline-svg:968c409faa183fa1"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a693caa49d66f73a",
+      "kind": "image",
+      "name": "svg-51",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a693caa49d66f73a.svg",
+      "url": "inline-svg:a693caa49d66f73a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a7bac2e197e7b754",
+      "kind": "image",
+      "name": "svg-52",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a7bac2e197e7b754.svg",
+      "url": "inline-svg:a7bac2e197e7b754"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "45ff29ade7e0132a",
+      "kind": "image",
+      "name": "svg-53",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/45ff29ade7e0132a.svg",
+      "url": "inline-svg:45ff29ade7e0132a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b3155a16f3f95a0e",
+      "kind": "image",
+      "name": "svg-54",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b3155a16f3f95a0e.svg",
+      "url": "inline-svg:b3155a16f3f95a0e"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1423062cdbcd869a",
+      "kind": "image",
+      "name": "svg-55",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1423062cdbcd869a.svg",
+      "url": "inline-svg:1423062cdbcd869a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1c2077fb8441e59a",
+      "kind": "image",
+      "name": "svg-56",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1c2077fb8441e59a.svg",
+      "url": "inline-svg:1c2077fb8441e59a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b0db99e112d2e071",
+      "kind": "image",
+      "name": "svg-57",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b0db99e112d2e071.svg",
+      "url": "inline-svg:b0db99e112d2e071"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f7c3801a92b4dbcd",
+      "kind": "image",
+      "name": "svg-58",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f7c3801a92b4dbcd.svg",
+      "url": "inline-svg:f7c3801a92b4dbcd"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "fd61452c74fee3b3",
+      "kind": "image",
+      "name": "svg-59",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/fd61452c74fee3b3.svg",
+      "url": "inline-svg:fd61452c74fee3b3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "5ca0e53ad1109b2f",
+      "kind": "image",
+      "name": "svg-60",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/5ca0e53ad1109b2f.svg",
+      "url": "inline-svg:5ca0e53ad1109b2f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "edd61e12622ffd04",
+      "kind": "image",
+      "name": "svg-61",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/edd61e12622ffd04.svg",
+      "url": "inline-svg:edd61e12622ffd04"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1f3790943dec2ba5",
+      "kind": "image",
+      "name": "svg-62",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1f3790943dec2ba5.svg",
+      "url": "inline-svg:1f3790943dec2ba5"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "011a430c545064c3",
+      "kind": "image",
+      "name": "svg-63",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/011a430c545064c3.svg",
+      "url": "inline-svg:011a430c545064c3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "508223c40057da68",
+      "kind": "image",
+      "name": "svg-64",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/508223c40057da68.svg",
+      "url": "inline-svg:508223c40057da68"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0bd8558ad5c67d45",
+      "kind": "image",
+      "name": "svg-65",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0bd8558ad5c67d45.svg",
+      "url": "inline-svg:0bd8558ad5c67d45"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "1c91803e15ba2c5b",
+      "kind": "image",
+      "name": "svg-66",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/1c91803e15ba2c5b.svg",
+      "url": "inline-svg:1c91803e15ba2c5b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0c062093cef6f23f",
+      "kind": "image",
+      "name": "svg-67",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0c062093cef6f23f.svg",
+      "url": "inline-svg:0c062093cef6f23f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "4c5796ae792ac465",
+      "kind": "image",
+      "name": "svg-68",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/4c5796ae792ac465.svg",
+      "url": "inline-svg:4c5796ae792ac465"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "ec0031d32ed85d04",
+      "kind": "image",
+      "name": "svg-69",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/ec0031d32ed85d04.svg",
+      "url": "inline-svg:ec0031d32ed85d04"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f2cbe808bd695562",
+      "kind": "image",
+      "name": "svg-70",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f2cbe808bd695562.svg",
+      "url": "inline-svg:f2cbe808bd695562"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "3dd817a880946e3a",
+      "kind": "image",
+      "name": "svg-71",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/3dd817a880946e3a.svg",
+      "url": "inline-svg:3dd817a880946e3a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c770d3cc420817f9",
+      "kind": "image",
+      "name": "svg-72",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c770d3cc420817f9.svg",
+      "url": "inline-svg:c770d3cc420817f9"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "59f6fe4c34429671",
+      "kind": "image",
+      "name": "svg-73",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/59f6fe4c34429671.svg",
+      "url": "inline-svg:59f6fe4c34429671"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8dd76ec35f4623a1",
+      "kind": "image",
+      "name": "svg-74",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8dd76ec35f4623a1.svg",
+      "url": "inline-svg:8dd76ec35f4623a1"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f1f448756385d050",
+      "kind": "image",
+      "name": "svg-75",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f1f448756385d050.svg",
+      "url": "inline-svg:f1f448756385d050"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "299f634fd865af94",
+      "kind": "image",
+      "name": "svg-76",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/299f634fd865af94.svg",
+      "url": "inline-svg:299f634fd865af94"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c84b6b8a97630de7",
+      "kind": "image",
+      "name": "svg-77",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c84b6b8a97630de7.svg",
+      "url": "inline-svg:c84b6b8a97630de7"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0adbe3839e416b9b",
+      "kind": "image",
+      "name": "svg-78",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0adbe3839e416b9b.svg",
+      "url": "inline-svg:0adbe3839e416b9b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "ab4c39a1efa56ef5",
+      "kind": "image",
+      "name": "svg-79",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/ab4c39a1efa56ef5.svg",
+      "url": "inline-svg:ab4c39a1efa56ef5"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "e6567d802a2b7078",
+      "kind": "image",
+      "name": "svg-80",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/e6567d802a2b7078.svg",
+      "url": "inline-svg:e6567d802a2b7078"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0951361f0770913f",
+      "kind": "image",
+      "name": "svg-81",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0951361f0770913f.svg",
+      "url": "inline-svg:0951361f0770913f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d49e17afa6c460d0",
+      "kind": "image",
+      "name": "svg-82",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d49e17afa6c460d0.svg",
+      "url": "inline-svg:d49e17afa6c460d0"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "ecdc6841f5e1797b",
+      "kind": "image",
+      "name": "svg-83",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/ecdc6841f5e1797b.svg",
+      "url": "inline-svg:ecdc6841f5e1797b"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b076df530d6ce5e1",
+      "kind": "image",
+      "name": "svg-84",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b076df530d6ce5e1.svg",
+      "url": "inline-svg:b076df530d6ce5e1"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f368dde2f104ac76",
+      "kind": "image",
+      "name": "svg-85",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f368dde2f104ac76.svg",
+      "url": "inline-svg:f368dde2f104ac76"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f7c043ba1f1c4240",
+      "kind": "image",
+      "name": "svg-86",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f7c043ba1f1c4240.svg",
+      "url": "inline-svg:f7c043ba1f1c4240"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "97180d3cc0ae2b04",
+      "kind": "image",
+      "name": "svg-87",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/97180d3cc0ae2b04.svg",
+      "url": "inline-svg:97180d3cc0ae2b04"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "5fba44f0d3424b51",
+      "kind": "image",
+      "name": "svg-88",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/5fba44f0d3424b51.svg",
+      "url": "inline-svg:5fba44f0d3424b51"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "6a5699f76cec08d6",
+      "kind": "image",
+      "name": "svg-89",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/6a5699f76cec08d6.svg",
+      "url": "inline-svg:6a5699f76cec08d6"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a42e1a81def36f28",
+      "kind": "image",
+      "name": "svg-90",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a42e1a81def36f28.svg",
+      "url": "inline-svg:a42e1a81def36f28"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8edbe9fb702e80c3",
+      "kind": "image",
+      "name": "svg-91",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8edbe9fb702e80c3.svg",
+      "url": "inline-svg:8edbe9fb702e80c3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "2e455a7b33c57592",
+      "kind": "image",
+      "name": "svg-92",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/2e455a7b33c57592.svg",
+      "url": "inline-svg:2e455a7b33c57592"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d30261f15956125d",
+      "kind": "image",
+      "name": "svg-93",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d30261f15956125d.svg",
+      "url": "inline-svg:d30261f15956125d"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "51111690ed7f46e9",
+      "kind": "image",
+      "name": "svg-94",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/51111690ed7f46e9.svg",
+      "url": "inline-svg:51111690ed7f46e9"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "68c47d78e65d90a6",
+      "kind": "image",
+      "name": "svg-95",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/68c47d78e65d90a6.svg",
+      "url": "inline-svg:68c47d78e65d90a6"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c51d6576fe3d1160",
+      "kind": "image",
+      "name": "svg-96",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c51d6576fe3d1160.svg",
+      "url": "inline-svg:c51d6576fe3d1160"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c26adf496e1a8210",
+      "kind": "image",
+      "name": "svg-97",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c26adf496e1a8210.svg",
+      "url": "inline-svg:c26adf496e1a8210"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "e9780162a4b2ca37",
+      "kind": "image",
+      "name": "svg-98",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/e9780162a4b2ca37.svg",
+      "url": "inline-svg:e9780162a4b2ca37"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "5866d23fae0c72f1",
+      "kind": "image",
+      "name": "svg-99",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/5866d23fae0c72f1.svg",
+      "url": "inline-svg:5866d23fae0c72f1"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "66bccfce558ffa61",
+      "kind": "image",
+      "name": "svg-100",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/66bccfce558ffa61.svg",
+      "url": "inline-svg:66bccfce558ffa61"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0902dac8cfb24c57",
+      "kind": "image",
+      "name": "svg-101",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0902dac8cfb24c57.svg",
+      "url": "inline-svg:0902dac8cfb24c57"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "922d0cc4f4f4f85c",
+      "kind": "image",
+      "name": "svg-102",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/922d0cc4f4f4f85c.svg",
+      "url": "inline-svg:922d0cc4f4f4f85c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f083c239f5c264f3",
+      "kind": "image",
+      "name": "svg-103",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f083c239f5c264f3.svg",
+      "url": "inline-svg:f083c239f5c264f3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "69c6bdb23f5c6e69",
+      "kind": "image",
+      "name": "svg-104",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/69c6bdb23f5c6e69.svg",
+      "url": "inline-svg:69c6bdb23f5c6e69"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "dcceaeb35765685d",
+      "kind": "image",
+      "name": "svg-105",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/dcceaeb35765685d.svg",
+      "url": "inline-svg:dcceaeb35765685d"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "7ae1dab9cc74fc29",
+      "kind": "image",
+      "name": "svg-106",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/7ae1dab9cc74fc29.svg",
+      "url": "inline-svg:7ae1dab9cc74fc29"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "482d805fc33e38a2",
+      "kind": "image",
+      "name": "svg-107",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/482d805fc33e38a2.svg",
+      "url": "inline-svg:482d805fc33e38a2"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "4b4e099f184c1593",
+      "kind": "image",
+      "name": "svg-108",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/4b4e099f184c1593.svg",
+      "url": "inline-svg:4b4e099f184c1593"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "af67f3e0e045bdfa",
+      "kind": "image",
+      "name": "svg-109",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/af67f3e0e045bdfa.svg",
+      "url": "inline-svg:af67f3e0e045bdfa"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "51888a83a0626c67",
+      "kind": "image",
+      "name": "svg-110",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/51888a83a0626c67.svg",
+      "url": "inline-svg:51888a83a0626c67"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b00b22964ff8d346",
+      "kind": "image",
+      "name": "svg-111",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b00b22964ff8d346.svg",
+      "url": "inline-svg:b00b22964ff8d346"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c8ecd30d78bd5dac",
+      "kind": "image",
+      "name": "svg-112",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c8ecd30d78bd5dac.svg",
+      "url": "inline-svg:c8ecd30d78bd5dac"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "add2cfd1e9002fbe",
+      "kind": "image",
+      "name": "svg-113",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/add2cfd1e9002fbe.svg",
+      "url": "inline-svg:add2cfd1e9002fbe"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d8743c86750f7a80",
+      "kind": "image",
+      "name": "svg-114",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d8743c86750f7a80.svg",
+      "url": "inline-svg:d8743c86750f7a80"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "0e8ac378d623f3bb",
+      "kind": "image",
+      "name": "svg-115",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/0e8ac378d623f3bb.svg",
+      "url": "inline-svg:0e8ac378d623f3bb"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "23cad04e717127b4",
+      "kind": "image",
+      "name": "svg-116",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/23cad04e717127b4.svg",
+      "url": "inline-svg:23cad04e717127b4"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "bf0c1e61e74bf7a3",
+      "kind": "image",
+      "name": "svg-117",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/bf0c1e61e74bf7a3.svg",
+      "url": "inline-svg:bf0c1e61e74bf7a3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "2eeaff0633a037af",
+      "kind": "image",
+      "name": "svg-118",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/2eeaff0633a037af.svg",
+      "url": "inline-svg:2eeaff0633a037af"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "5dac5f7422f13ccf",
+      "kind": "image",
+      "name": "svg-119",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/5dac5f7422f13ccf.svg",
+      "url": "inline-svg:5dac5f7422f13ccf"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "6da500536cc509b9",
+      "kind": "image",
+      "name": "svg-120",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/6da500536cc509b9.svg",
+      "url": "inline-svg:6da500536cc509b9"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "8f601545c4421088",
+      "kind": "image",
+      "name": "svg-121",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/8f601545c4421088.svg",
+      "url": "inline-svg:8f601545c4421088"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "bf05e5b1dfdce9a9",
+      "kind": "image",
+      "name": "svg-122",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/bf05e5b1dfdce9a9.svg",
+      "url": "inline-svg:bf05e5b1dfdce9a9"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c862d428c84851d5",
+      "kind": "image",
+      "name": "svg-123",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c862d428c84851d5.svg",
+      "url": "inline-svg:c862d428c84851d5"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "67c172278e07ef22",
+      "kind": "image",
+      "name": "svg-124",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/67c172278e07ef22.svg",
+      "url": "inline-svg:67c172278e07ef22"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "c76480b3c652a410",
+      "kind": "image",
+      "name": "svg-125",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/c76480b3c652a410.svg",
+      "url": "inline-svg:c76480b3c652a410"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "975a4eef3e0dcc80",
+      "kind": "image",
+      "name": "svg-126",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/975a4eef3e0dcc80.svg",
+      "url": "inline-svg:975a4eef3e0dcc80"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "15dc405b71535f09",
+      "kind": "image",
+      "name": "svg-127",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/15dc405b71535f09.svg",
+      "url": "inline-svg:15dc405b71535f09"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "3af2740f1fbd3ed3",
+      "kind": "image",
+      "name": "svg-128",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/3af2740f1fbd3ed3.svg",
+      "url": "inline-svg:3af2740f1fbd3ed3"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a912b0489b2a2973",
+      "kind": "image",
+      "name": "svg-129",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a912b0489b2a2973.svg",
+      "url": "inline-svg:a912b0489b2a2973"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "e0a83b8612427e3c",
+      "kind": "image",
+      "name": "svg-130",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/e0a83b8612427e3c.svg",
+      "url": "inline-svg:e0a83b8612427e3c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "4adc7e3ec57a1355",
+      "kind": "image",
+      "name": "svg-131",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/4adc7e3ec57a1355.svg",
+      "url": "inline-svg:4adc7e3ec57a1355"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "fd953dab90fe0c2e",
+      "kind": "image",
+      "name": "svg-132",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/fd953dab90fe0c2e.svg",
+      "url": "inline-svg:fd953dab90fe0c2e"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f0f23665c072dd7c",
+      "kind": "image",
+      "name": "svg-133",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f0f23665c072dd7c.svg",
+      "url": "inline-svg:f0f23665c072dd7c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "77b6af8d04eabe14",
+      "kind": "image",
+      "name": "svg-134",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/77b6af8d04eabe14.svg",
+      "url": "inline-svg:77b6af8d04eabe14"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "f7c2bbe454cb9eb8",
+      "kind": "image",
+      "name": "svg-135",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/f7c2bbe454cb9eb8.svg",
+      "url": "inline-svg:f7c2bbe454cb9eb8"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "84f4eccfeacb848f",
+      "kind": "image",
+      "name": "svg-136",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/84f4eccfeacb848f.svg",
+      "url": "inline-svg:84f4eccfeacb848f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "d8e84c226d4abf9f",
+      "kind": "image",
+      "name": "svg-137",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/d8e84c226d4abf9f.svg",
+      "url": "inline-svg:d8e84c226d4abf9f"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "b1642001d30861bb",
+      "kind": "image",
+      "name": "svg-138",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/b1642001d30861bb.svg",
+      "url": "inline-svg:b1642001d30861bb"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "45b4d54c8ee15d2a",
+      "kind": "image",
+      "name": "svg-139",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/45b4d54c8ee15d2a.svg",
+      "url": "inline-svg:45b4d54c8ee15d2a"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "bbc183677a64e29c",
+      "kind": "image",
+      "name": "svg-140",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/bbc183677a64e29c.svg",
+      "url": "inline-svg:bbc183677a64e29c"
+    },
+    {
+      "contentType": "image/svg+xml",
+      "id": "a9fc1e9904f8a0a0",
+      "kind": "image",
+      "name": "svg-141",
+      "path": "C:\\Users\\Luro\\AppData\\Local\\Temp/browser-use/assets/7a39e68e-2e23-48f4-9a29-e3c366a25c14/a9fc1e9904f8a0a0.svg",
+      "url": "inline-svg:a9fc1e9904f8a0a0"
+    }
+  ],
+  "failures": []
+}

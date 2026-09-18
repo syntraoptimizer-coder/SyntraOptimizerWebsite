@@ -281,50 +281,120 @@ export default function Account({
             ) : (
               <>
                 {/* OAuth Social Buttons */}
-                <div className="oauth-buttons-grid">
+                <div style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  margin: "18px 0"
+                }}>
                   <button
                     type="button"
-                    className="oauth-button google"
                     disabled={!!oauthLoading}
                     onClick={() => handleOAuth('google')}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      width: "100%",
+                      padding: "11px 16px",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: "var(--card)",
+                      color: "var(--foreground)",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      cursor: oauthLoading ? "wait" : "pointer"
+                    }}
                   >
-                    {oauthLoading === 'google' ? <Loader2 size={16} className="spin" /> : <GoogleIcon />}
-                    <span>Continue with Google</span>
+                    {oauthLoading === 'google' ? <Loader2 size={18} className="spin" /> : <GoogleIcon />}
+                    <span style={{ flex: 1, textAlign: "left" }}>Continue with Google</span>
+                    <ArrowRight size={14} style={{ opacity: 0.4 }} />
                   </button>
 
                   <button
                     type="button"
-                    className="oauth-button discord"
                     disabled={!!oauthLoading}
                     onClick={() => handleOAuth('discord')}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      width: "100%",
+                      padding: "11px 16px",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: "var(--card)",
+                      color: "var(--foreground)",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      cursor: oauthLoading ? "wait" : "pointer"
+                    }}
                   >
-                    {oauthLoading === 'discord' ? <Loader2 size={16} className="spin" /> : <DiscordIcon />}
-                    <span>Continue with Discord</span>
+                    {oauthLoading === 'discord' ? <Loader2 size={18} className="spin" /> : <DiscordIcon />}
+                    <span style={{ flex: 1, textAlign: "left" }}>Continue with Discord</span>
+                    <ArrowRight size={14} style={{ opacity: 0.4 }} />
                   </button>
 
                   <button
                     type="button"
-                    className="oauth-button microsoft"
                     disabled={!!oauthLoading}
                     onClick={() => handleOAuth('azure')}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      width: "100%",
+                      padding: "11px 16px",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: "var(--card)",
+                      color: "var(--foreground)",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      cursor: oauthLoading ? "wait" : "pointer"
+                    }}
                   >
-                    {oauthLoading === 'azure' ? <Loader2 size={16} className="spin" /> : <MicrosoftIcon />}
-                    <span>Continue with Microsoft</span>
+                    {oauthLoading === 'azure' ? <Loader2 size={18} className="spin" /> : <MicrosoftIcon />}
+                    <span style={{ flex: 1, textAlign: "left" }}>Continue with Microsoft</span>
+                    <ArrowRight size={14} style={{ opacity: 0.4 }} />
                   </button>
 
                   <button
                     type="button"
-                    className="oauth-button github"
                     disabled={!!oauthLoading}
                     onClick={() => handleOAuth('github')}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      width: "100%",
+                      padding: "11px 16px",
+                      borderRadius: "10px",
+                      border: "1px solid var(--border)",
+                      background: "var(--card)",
+                      color: "var(--foreground)",
+                      fontSize: "13px",
+                      fontWeight: 500,
+                      cursor: oauthLoading ? "wait" : "pointer"
+                    }}
                   >
-                    {oauthLoading === 'github' ? <Loader2 size={16} className="spin" /> : <GithubIcon />}
-                    <span>Continue with GitHub</span>
+                    {oauthLoading === 'github' ? <Loader2 size={18} className="spin" /> : <GithubIcon />}
+                    <span style={{ flex: 1, textAlign: "left" }}>Continue with GitHub</span>
+                    <ArrowRight size={14} style={{ opacity: 0.4 }} />
                   </button>
                 </div>
 
-                <div className="oauth-divider">
-                  <span>or email sign-in link</span>
+                <div style={{
+                  display: "flex",
+                  alignItems: "center",
+                  textAlign: "center",
+                  color: "var(--muted-foreground)",
+                  fontSize: "11px",
+                  margin: "14px 0"
+                }}>
+                  <span style={{ flex: 1, borderBottom: "1px solid var(--border)" }} />
+                  <span style={{ padding: "0 10px" }}>or email sign-in link</span>
+                  <span style={{ flex: 1, borderBottom: "1px solid var(--border)" }} />
                 </div>
 
                 <form onSubmit={submitEmail} className="account-email-form">
@@ -346,9 +416,15 @@ export default function Account({
                     {busy ? 'Sending link…' : 'Send sign-in link'}
                     <ArrowRight size={14} />
                   </button>
-                  <p className="small-note">
-                    Password-free & secure. Creates your account if you are new.
-                  </p>
+                  <div style={{ textAlign: "center", marginTop: "12px" }}>
+                    <a
+                      href="/login"
+                      onClick={() => onOpenChange(false)}
+                      style={{ fontSize: "12px", color: "var(--blue)", textDecoration: "none" }}
+                    >
+                      Open dedicated full page →
+                    </a>
+                  </div>
                 </form>
               </>
             )}

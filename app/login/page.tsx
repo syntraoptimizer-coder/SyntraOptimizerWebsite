@@ -4,8 +4,10 @@ import type { User } from "@supabase/supabase-js";
 import {
   ArrowRight, Mail, ShieldCheck, Sparkles, Check, LogOut,
   Loader2, Sun, Moon, Zap, Monitor, ExternalLink, ChevronRight,
+  ChevronDown, Menu, X, ArrowUpRight,
 } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
+import { product } from "@/lib/product";
 
 function GoogleIcon() {
   return (
@@ -47,6 +49,8 @@ function GithubIcon() {
 
 export default function LoginPage() {
   const [light, setLight] = useState(true);
+  const [menu, setMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<string | null>(null);
@@ -54,22 +58,17 @@ export default function LoginPage() {
   const [user, setUser] = useState<User | null>(null);
   const [plan, setPlan] = useState<"Loading…" | "Free" | "Premium">("Loading…");
   const [avatarErr, setAvatarErr] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
   const sb = getSupabase();
 
-  useEffect(() => {
-    try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {}
-  }, []);
-
+  useEffect(() => { try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {} }, []);
   useEffect(() => {
     if (light) delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = "dark";
     try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
   }, [light]);
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => { const y = window.scrollY; setScrolled(y > 28); };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -112,8 +111,7 @@ export default function LoginPage() {
       });
       if (error) throw error;
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Authentication failed";
-      setMessage(`Unable to connect with ${provider}: ${msg}`);
+      setMessage(`Unable to connect: ${err instanceof Error ? err.message : "Authentication failed"}`);
       setOauthLoading(null);
     }
   }
@@ -129,70 +127,87 @@ export default function LoginPage() {
         options: { emailRedirectTo: `${window.location.origin}/account` },
       });
       if (error) throw error;
-      setMessage("✓ A secure login link was sent to your inbox!");
+      setMessage("✓ Un lien de connexion sécurisé a été envoyé à votre adresse email.");
     } catch {
-      setMessage("Could not send sign-in link. Please verify your email.");
+      setMessage("Impossible d'envoyer le lien. Vérifiez votre adresse email.");
     } finally { setBusy(false); }
   }
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
   const avatarUrl = meta.avatar_url || meta.picture;
-  const initial = displayName.trim().charAt(0).toUpperCase() || "S";
+  const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
 
   return (
     <>
-      {/* Wrap in site-shell so nav matches homepage exactly */}
-      <div className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", paddingBottom: 0 }}>
-        {/* Navigation — identical class usage as homepage */}
+      <a className="skip-link" href="#main">Skip to content</a>
+      <div id="top" className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", paddingBottom: 0 }}>
+
+        {/* ── Navigation identique à la homepage ── */}
         <header className={scrolled ? "navigation scrolled" : "navigation"}>
           <a href="/" className="brand" aria-label="Syntra Optimizer home">
             <img src="/assets/syntra-logo.png" width="30" height="30" alt="" />
             <span>Syntra<span className="brand-sub"> Optimizer</span></span>
           </a>
 
+          <nav aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
+            {(["Features", "Safety", "For you", "Pricing"] as const).map((label) => (
+              <a key={label} href={`/#${label.toLowerCase().replace(" ", "")}`} onClick={() => setMenu(false)}>
+                {label}{["Features", "For you"].includes(label) && <ChevronDown size={12} />}
+              </a>
+            ))}
+          </nav>
+
           <div className="nav-actions">
-            <a href="/" className="nav-demo" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-              ← Back to website
-            </a>
+            {user ? (
+              <a href="/account" className="nav-user-chip" aria-label="Open account details">
+                <span className="nav-user-avatar">
+                  {avatarUrl ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer" /> : userInitial}
+                </span>
+                <span className="nav-user-name">{displayName.split(" ")[0]}</span>
+                <span className={`nav-plan-pill ${plan === "Premium" ? "premium" : "free"}`}>
+                  {plan === "Premium" ? "✦ Premium" : "Free"}
+                </span>
+              </a>
+            ) : (
+              <span className="nav-demo" style={{ color: "var(--blue)", fontWeight: 550 }}>Sign in</span>
+            )}
             <button
-              className="theme-toggle"
-              style={{ position: "relative", bottom: "auto", right: "auto", width: 38, height: 38 }}
-              onClick={() => setLight(!light)}
-              aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
+              className="button primary compact"
+              onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
-              {light ? <Moon size={16} /> : <Sun size={16} />}
+              Get Syntra <ArrowUpRight size={14} />
+            </button>
+            <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
+              {menu ? <X /> : <Menu />}
             </button>
           </div>
         </header>
 
-        {/* Hero-style main area */}
-        <main style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "60px 20px 80px" }}>
-          <div style={{ width: "100%", maxWidth: "960px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "48px", alignItems: "center" }}>
+        {/* ── Main ── */}
+        <main id="main" style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", padding: "72px 20px 100px" }}>
+          <div style={{ width: "100%", maxWidth: "980px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "52px", alignItems: "center" }}>
 
-            {/* Left: Brand pitch */}
+            {/* Left: pitch */}
             <div>
               <span className="eyebrow">
                 <Zap size={13} /> CONNECT YOUR ACCOUNT <ChevronRight size={13} />
               </span>
-
-              <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", lineHeight: 1.1, letterSpacing: "-2px", fontWeight: 470, margin: "20px 0 18px" }}>
+              <h1 style={{ fontSize: "clamp(34px, 4.2vw, 56px)", lineHeight: 1.08, letterSpacing: "-2.2px", fontWeight: 470, margin: "20px 0 18px" }}>
                 Your PC.<br />
                 <span style={{ color: "var(--blue)" }}>Your space.</span><br />
                 Made personal.
               </h1>
-
-              <p style={{ fontSize: "15px", color: "var(--muted-foreground)", lineHeight: 1.7, marginBottom: "36px", maxWidth: "420px" }}>
+              <p style={{ fontSize: 15, color: "var(--muted-foreground)", lineHeight: 1.7, marginBottom: 36, maxWidth: 420 }}>
                 Connect your account to activate your <strong>Free</strong> or <strong>Premium</strong> license in the Syntra Optimizer desktop app — on all your devices.
               </p>
-
-              <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                 {[
                   { icon: <Monitor size={15} />, title: "Desktop App Sync", desc: "Sign in once and your license activates automatically on every PC you own." },
                   { icon: <Sparkles size={15} style={{ color: "#f59e0b" }} />, title: "Free & Premium Tiers", desc: "View your perks, unlock advanced gaming tweaks, and manage license keys." },
                   { icon: <ShieldCheck size={15} />, title: "Safe & Encrypted", desc: "Backed by Supabase auth. No password to memorize, ever." },
                 ].map(({ icon, title, desc }) => (
-                  <div key={title} style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+                  <div key={title} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                     <div style={{ width: 28, height: 28, borderRadius: 8, background: "var(--secondary)", border: "1px solid var(--border)", display: "grid", placeItems: "center", color: "var(--blue)", flexShrink: 0 }}>
                       {icon}
                     </div>
@@ -205,17 +220,15 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Right: Auth Card */}
+            {/* Right: auth card */}
             <div className="price-card" style={{ boxShadow: "0 24px 60px -28px rgba(20,26,33,.22)" }}>
               {user ? (
-                /* === Logged-in view === */
                 <div>
-                  {/* User row */}
                   <div className="account-user-card" style={{ marginBottom: 20 }}>
                     <div className="account-avatar-wrapper">
                       {avatarUrl && !avatarErr
                         ? <img src={avatarUrl} alt={displayName} className="account-avatar-img" referrerPolicy="no-referrer" onError={() => setAvatarErr(true)} />
-                        : <span className="account-avatar-initials">{initial}</span>}
+                        : <span className="account-avatar-initials">{userInitial}</span>}
                     </div>
                     <div className="account-user-info">
                       <h4>{displayName}</h4>
@@ -223,7 +236,6 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  {/* Plan card */}
                   <div className={`plan-status-card ${plan === "Premium" ? "is-premium" : "is-free"}`} style={{ marginBottom: 18 }}>
                     <div className="plan-status-header">
                       <div>
@@ -235,7 +247,6 @@ export default function LoginPage() {
                         </div>
                       </div>
                     </div>
-
                     {plan === "Premium" ? (
                       <ul className="plan-perks-list">
                         {["All performance profiles (Gaming, Creator, Balanced)", "Deep system & registry cleanup", "Restore point generator", "Unlimited devices"].map(p => (
@@ -256,7 +267,6 @@ export default function LoginPage() {
                     )}
                   </div>
 
-                  {/* Actions */}
                   <div style={{ display: "flex", gap: 10 }}>
                     <a href="/account" className="button secondary" style={{ flex: 1, fontSize: 13 }}>
                       Full Dashboard <ExternalLink size={13} />
@@ -271,7 +281,6 @@ export default function LoginPage() {
                   </div>
                 </div>
               ) : (
-                /* === Sign-in view === */
                 <div>
                   <div style={{ marginBottom: 24 }}>
                     <img src="/assets/syntra-logo.png" width={40} height={40} alt="" style={{ borderRadius: 10, marginBottom: 12 }} />
@@ -279,7 +288,6 @@ export default function LoginPage() {
                     <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Select a provider to link your account.</p>
                   </div>
 
-                  {/* OAuth Buttons */}
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
                     {([
                       { provider: "google" as const, icon: <GoogleIcon />, label: "Continue with Google" },
@@ -302,10 +310,8 @@ export default function LoginPage() {
                     ))}
                   </div>
 
-                  {/* Divider */}
                   <div className="oauth-divider"><span>or sign in with email</span></div>
 
-                  {/* Email form */}
                   <form onSubmit={submitEmail} style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
                     <label className="account-email-form" htmlFor="login-email">Email address</label>
                     <div className="email-field">
@@ -329,9 +335,7 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {message && (
-                <div className="account-message" style={{ marginTop: 16 }}>{message}</div>
-              )}
+              {message && <div className="account-message" style={{ marginTop: 16 }}>{message}</div>}
             </div>
           </div>
         </main>
@@ -346,12 +350,7 @@ export default function LoginPage() {
         </footer>
       </div>
 
-      {/* Floating theme toggle — identical to homepage */}
-      <button
-        className="theme-toggle"
-        onClick={() => setLight(!light)}
-        aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
-      >
+      <button className="theme-toggle" onClick={() => setLight(!light)} aria-label={light ? "Switch to dark theme" : "Switch to light theme"}>
         {light ? <Moon size={19} /> : <Sun size={19} />}
       </button>
     </>

@@ -3,33 +3,31 @@ import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
   ArrowRight, Check, Laptop, LogOut, Moon, ShieldCheck,
-  Sparkles, Sun, ChevronRight, Loader2,
+  Sparkles, Sun, ChevronRight, ChevronDown, Loader2, Menu, X, ArrowUpRight,
 } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
+import { product } from "@/lib/product";
 
 export default function AccountPage() {
   const [light, setLight] = useState(true);
+  const [menu, setMenu] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<"Free" | "Premium">("Free");
   const [avatarErr, setAvatarErr] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [stripeLoading, setStripeLoading] = useState(false);
 
   const sb = getSupabase();
 
-  useEffect(() => {
-    try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {}
-  }, []);
-
+  useEffect(() => { try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {} }, []);
   useEffect(() => {
     if (light) delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = "dark";
     try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
   }, [light]);
-
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10);
+    const onScroll = () => setScrolled(window.scrollY > 28);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -72,44 +70,61 @@ export default function AccountPage() {
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
   const avatarUrl = meta.avatar_url || meta.picture;
-  const initial = displayName.trim().charAt(0).toUpperCase() || "S";
+  const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
   const provider = user?.app_metadata?.provider
     ? user.app_metadata.provider.charAt(0).toUpperCase() + user.app_metadata.provider.slice(1)
     : "Social Account";
 
   return (
     <>
-      <div className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", paddingBottom: 0 }}>
-        {/* Navigation */}
+      <a className="skip-link" href="#main">Skip to content</a>
+      <div id="top" className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", paddingBottom: 0 }}>
+
+        {/* ── Navigation identique à la homepage ── */}
         <header className={scrolled ? "navigation scrolled" : "navigation"}>
           <a href="/" className="brand" aria-label="Syntra Optimizer home">
             <img src="/assets/syntra-logo.png" width="30" height="30" alt="" />
             <span>Syntra<span className="brand-sub"> Optimizer</span></span>
           </a>
+
+          <nav aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
+            {(["Features", "Safety", "For you", "Pricing"] as const).map((label) => (
+              <a key={label} href={`/#${label.toLowerCase().replace(" ", "")}`} onClick={() => setMenu(false)}>
+                {label}{["Features", "For you"].includes(label) && <ChevronDown size={12} />}
+              </a>
+            ))}
+          </nav>
+
           <div className="nav-actions">
-            <a href="/" className="nav-demo" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-              ← Back to website
-            </a>
-            {user && (
-              <button
-                className="button compact"
-                onClick={async () => { await sb!.auth.signOut(); window.location.href = "/login"; }}
-              >
-                <LogOut size={13} /> Sign out
-              </button>
+            {user ? (
+              <span className="nav-user-chip" aria-label="Your account">
+                <span className="nav-user-avatar">
+                  {avatarUrl && !avatarErr
+                    ? <img src={avatarUrl} alt="" referrerPolicy="no-referrer" onError={() => setAvatarErr(true)} />
+                    : userInitial}
+                </span>
+                <span className="nav-user-name">{displayName.split(" ")[0]}</span>
+                <span className={`nav-plan-pill ${plan === "Premium" ? "premium" : "free"}`}>
+                  {plan === "Premium" ? "✦ Premium" : "Free"}
+                </span>
+              </span>
+            ) : (
+              <a href="/login" className="nav-demo">Sign in</a>
             )}
             <button
-              className="theme-toggle"
-              style={{ position: "relative", bottom: "auto", right: "auto", width: 38, height: 38 }}
-              onClick={() => setLight(!light)}
-              aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
+              className="button primary compact"
+              onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
-              {light ? <Moon size={16} /> : <Sun size={16} />}
+              Get Syntra <ArrowUpRight size={14} />
+            </button>
+            <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
+              {menu ? <X /> : <Menu />}
             </button>
           </div>
         </header>
 
-        <main style={{ flex: 1, padding: "52px 20px 80px" }}>
+        {/* ── Main ── */}
+        <main id="main" style={{ flex: 1, padding: "56px 20px 100px" }}>
           <div style={{ maxWidth: 1040, margin: "0 auto" }}>
 
             {loading ? (
@@ -118,7 +133,6 @@ export default function AccountPage() {
                 <p style={{ color: "var(--muted-foreground)", fontSize: 15 }}>Loading your account…</p>
               </div>
             ) : !user ? (
-              /* Not signed in */
               <div style={{ textAlign: "center", padding: "60px 20px", maxWidth: 480, margin: "40px auto" }} className="price-card">
                 <img src="/assets/syntra-logo.png" width={52} height={52} alt="" style={{ borderRadius: 12, marginBottom: 18 }} />
                 <h2 style={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.7px", margin: "0 0 10px" }}>You&apos;re not signed in</h2>
@@ -130,17 +144,16 @@ export default function AccountPage() {
                 </a>
               </div>
             ) : (
-              /* Dashboard */
               <div>
                 {/* Page header */}
-                <div style={{ marginBottom: 36 }}>
+                <div style={{ marginBottom: 40 }}>
                   <span className="eyebrow">
                     <ChevronRight size={13} /> ACCOUNT OVERVIEW
                   </span>
-                  <h1 style={{ fontSize: "clamp(28px, 3.5vw, 42px)", lineHeight: 1.1, letterSpacing: "-1.5px", fontWeight: 460, margin: "14px 0 8px" }}>
+                  <h1 style={{ fontSize: "clamp(30px, 3.8vw, 48px)", lineHeight: 1.08, letterSpacing: "-1.8px", fontWeight: 460, margin: "16px 0 8px" }}>
                     Welcome back, <span style={{ color: "var(--blue)" }}>{displayName.split(" ")[0]}</span>.
                   </h1>
-                  <p style={{ fontSize: 14, color: "var(--muted-foreground)", margin: 0 }}>
+                  <p style={{ fontSize: 15, color: "var(--muted-foreground)", margin: 0 }}>
                     Manage your Syntra Optimizer license and connected desktop devices.
                   </p>
                 </div>
@@ -148,12 +161,12 @@ export default function AccountPage() {
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, marginBottom: 24 }}>
                   {/* Profile Card */}
                   <div className="price-card">
-                    <p className="small-note" style={{ marginBottom: 12 }}>YOUR PROFILE</p>
+                    <p className="small-note" style={{ marginBottom: 14 }}>YOUR PROFILE</p>
                     <div className="account-user-card" style={{ marginBottom: 20 }}>
-                      <div className="account-avatar-wrapper" style={{ width: 56, height: 56 }}>
+                      <div className="account-avatar-wrapper" style={{ width: 54, height: 54 }}>
                         {avatarUrl && !avatarErr
                           ? <img src={avatarUrl} alt={displayName} className="account-avatar-img" referrerPolicy="no-referrer" onError={() => setAvatarErr(true)} />
-                          : <span className="account-avatar-initials" style={{ fontSize: 22 }}>{initial}</span>}
+                          : <span className="account-avatar-initials" style={{ fontSize: 22 }}>{userInitial}</span>}
                       </div>
                       <div className="account-user-info">
                         <h4 style={{ fontSize: 16 }}>{displayName}</h4>
@@ -180,6 +193,15 @@ export default function AccountPage() {
                         <span style={{ color: "var(--blue)", fontWeight: 550 }}>● Active</span>
                       </div>
                     </div>
+
+                    <div className="price-divider" />
+                    <button
+                      className="button"
+                      style={{ width: "100%", fontSize: 13 }}
+                      onClick={async () => { await sb!.auth.signOut(); window.location.href = "/login"; }}
+                    >
+                      <LogOut size={14} /> Sign out
+                    </button>
                   </div>
 
                   {/* Plan Card */}
@@ -193,9 +215,7 @@ export default function AccountPage() {
                             : <><ShieldCheck size={18} style={{ color: "var(--blue)" }} />Syntra Free</>}
                         </h3>
                       </div>
-                      {plan === "Premium" && (
-                        <span><Sparkles size={10} /> ACTIVE</span>
-                      )}
+                      {plan === "Premium" && <span><Sparkles size={10} /> ACTIVE</span>}
                     </div>
 
                     <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 8, marginBottom: 18 }}>
@@ -252,7 +272,6 @@ export default function AccountPage() {
                       <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "2px 0 0" }}>How your web account connects with the PC application</p>
                     </div>
                   </div>
-
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
                     {[
                       { step: "01", title: "Download the App", desc: "Install Syntra Optimizer for Windows on your computer." },
@@ -282,11 +301,7 @@ export default function AccountPage() {
         </footer>
       </div>
 
-      <button
-        className="theme-toggle"
-        onClick={() => setLight(!light)}
-        aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
-      >
+      <button className="theme-toggle" onClick={() => setLight(!light)} aria-label={light ? "Switch to dark theme" : "Switch to light theme"}>
         {light ? <Moon size={19} /> : <Sun size={19} />}
       </button>
     </>

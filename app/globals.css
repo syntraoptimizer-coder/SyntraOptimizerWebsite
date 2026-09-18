@@ -60,3 +60,71 @@ body,.card,.button,.navigation,.hero,.price-card,.security-visual,.overview-ui,.
 .scenario-card p{grid-column:2;color:var(--muted-foreground);font-size:15px;line-height:1.75;margin-top:12px;max-width:540px}
 @media(max-width:760px){.scroll-stack-card.scenario-card{grid-template-columns:1fr;padding:30px 24px;row-gap:14px}.scenario-label,.scenario-card h3,.scenario-card p{grid-column:1}}
 @media(prefers-reduced-motion:reduce){.scroll-stack-card{transform:none!important;filter:none!important}}
+
+/* =========================================================
+   Account & OAuth Authentication Styles
+   ========================================================= */
+.account-dialog{max-width:480px!important;width:94vw}
+.account-dialog-header{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.account-dialog-header img{border-radius:10px;flex-shrink:0}
+.account-dialog-header .dialog-title{font-size:22px!important;margin:0 0 2px!important}
+
+/* Social OAuth Buttons */
+.oauth-buttons-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+@media(max-width:520px){.oauth-buttons-grid{grid-template-columns:1fr}}
+.oauth-button{display:flex;align-items:center;justify-content:center;gap:10px;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--foreground);font-size:12px;font-weight:520;cursor:pointer;transition:background-color .2s,border-color .2s,transform .15s}
+.oauth-button:hover:not(:disabled){background:var(--muted);border-color:color-mix(in srgb,var(--blue) 50%,var(--border));transform:translateY(-1px)}
+.oauth-button:active:not(:disabled){transform:translateY(0)}
+.oauth-button svg{flex-shrink:0}
+.oauth-button .spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.oauth-divider{display:flex;align-items:center;text-align:center;color:var(--muted-foreground);font-size:11px;margin:16px 0;letter-spacing:.3px}
+.oauth-divider::before,.oauth-divider::after{content:'';flex:1;border-bottom:1px solid var(--border)}
+.oauth-divider span{padding:0 12px}
+
+.account-email-form label{font-size:12px;color:var(--muted-foreground);font-weight:500}
+.w-full{width:100%!important}
+
+/* Logged in: Profile View */
+.account-profile-view{display:flex;flex-direction:column;gap:16px}
+.account-user-card{display:flex;align-items:center;gap:14px;padding:14px;border-radius:12px;border:1px solid var(--border);background:var(--muted)}
+.account-avatar-wrapper{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;border:1px solid var(--border);background:var(--card);display:grid;place-items:center}
+.account-avatar-img{width:100%;height:100%;object-fit:cover}
+.account-avatar-initials{font-weight:600;font-size:18px;color:var(--blue)}
+.account-user-info{min-width:0;flex:1}
+.account-user-info h4{font-size:15px;font-weight:600;margin:0 0 2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-user-info p{font-size:12px;color:var(--muted-foreground);margin:0 0 4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-linked-providers{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted-foreground)}
+.account-linked-providers strong{color:var(--foreground);font-weight:550}
+
+/* Plan Status Card */
+.plan-status-card{border-radius:14px;padding:16px 18px;border:1px solid var(--border);position:relative;overflow:hidden}
+.plan-status-card.is-premium{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(63,111,224,.12)),var(--card);border-color:rgba(245,158,11,.35);box-shadow:0 0 20px -8px rgba(245,158,11,.25)}
+.plan-status-card.is-free{background:var(--card)}
+.plan-status-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.plan-status-eyebrow{font-size:9px;letter-spacing:1px;font-weight:600;color:var(--muted-foreground);display:block;margin-bottom:3px}
+.plan-status-title{display:flex;align-items:center;gap:8px}
+.plan-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.3px}
+.plan-badge-premium{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 2px 6px rgba(217,119,6,.35)}
+.plan-badge-free{background:var(--secondary);color:var(--foreground);border:1px solid var(--border)}
+
+.plan-perks-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:7px}
+.plan-perks-list li{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--foreground)}
+.plan-perks-list li svg{color:var(--blue);flex-shrink:0}
+.plan-status-card.is-premium .plan-perks-list li svg{color:#f59e0b}
+.plan-perks-list li.muted-perk{color:var(--muted-foreground);opacity:.75}
+
+.account-signout-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;font-size:13px}
+
+/* Nav User Chip (Navbar) */
+.nav-user-chip{display:inline-flex;align-items:center;gap:9px;padding:4px 10px 4px 5px;border-radius:20px;border:1px solid var(--border);background:var(--secondary);color:var(--foreground);font-size:12px;cursor:pointer;transition:border-color .2s,background-color .2s}
+.nav-user-chip:hover{border-color:color-mix(in srgb,var(--blue) 60%,var(--border));background:var(--card)}
+.nav-user-avatar{width:24px;height:24px;border-radius:50%;overflow:hidden;background:var(--muted);display:grid;place-items:center;font-weight:600;font-size:11px;color:var(--blue);flex-shrink:0}
+.nav-user-avatar img{width:100%;height:100%;object-fit:cover}
+.nav-user-name{font-weight:520;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:600px){.nav-user-name{display:none}}
+.nav-plan-pill{padding:2px 7px;border-radius:10px;font-size:9px;font-weight:650;letter-spacing:.3px}
+.nav-plan-pill.premium{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
+.nav-plan-pill.free{background:var(--border);color:var(--muted-foreground)}
+

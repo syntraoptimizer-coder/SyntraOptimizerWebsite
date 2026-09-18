@@ -41,7 +41,7 @@ export default function Home(){
          setPlan('Premium');
          return;
        }
-       if (u.user_metadata?.plan === 'premium' || u.app_metadata?.plan === 'premium') {
+       if (u.app_metadata?.plan === 'premium') {
          setPlan('Premium');
          return;
        }

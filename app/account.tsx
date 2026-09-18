@@ -95,7 +95,7 @@ export default function Account({
           setPlan('Premium');
           return;
         }
-        const metaPlan = user!.user_metadata?.plan || user!.app_metadata?.plan;
+        const metaPlan = user!.app_metadata?.plan; // server-only, unlike user-editable user_metadata
         if (metaPlan === 'premium') {
           setPlan('Premium');
           return;

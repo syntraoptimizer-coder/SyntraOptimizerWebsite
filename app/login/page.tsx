@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 import { product } from "@/lib/product";
+import { startCheckout } from "@/lib/checkout";
 
 function GoogleIcon() {
   return (
@@ -91,7 +92,7 @@ export default function LoginPage() {
         const { data, error } = await sb!.from("licenses").select("plan").eq("user_id", user!.id).maybeSingle();
         if (!active) return;
         if (!error && data?.plan === "premium") { setPlan("Premium"); return; }
-        const metaPlan = user!.user_metadata?.plan || user!.app_metadata?.plan;
+        const metaPlan = user!.app_metadata?.plan; // server-only, unlike user-editable user_metadata
         if (metaPlan === "premium") { setPlan("Premium"); return; }
         setPlan("Free");
       } catch { if (active) setPlan("Free"); }
@@ -260,9 +261,17 @@ export default function LoginPage() {
                           <li><Check size={13} /> Balanced everyday profile</li>
                           <li className="muted-perk">✕ Gaming mode & low-latency tweaks</li>
                         </ul>
-                        <a href="/api/stripe/checkout" className="button primary" style={{ width: "100%", fontSize: 13 }}>
+                        <button
+                          type="button"
+                          className="button primary"
+                          style={{ width: "100%", fontSize: 13 }}
+                          onClick={async () => {
+                            const problem = await startCheckout();
+                            if (problem) setMessage(problem);
+                          }}
+                        >
                           <Sparkles size={14} /> Upgrade to Premium — $15 <ArrowRight size={13} />
-                        </a>
+                        </button>
                       </div>
                     )}
                   </div>

@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 import { product } from "@/lib/product";
+import { startCheckout } from "@/lib/checkout";
 
 export default function AccountPage() {
   const [light, setLight] = useState(true);
@@ -17,6 +18,7 @@ export default function AccountPage() {
   const [plan, setPlan] = useState<"Free" | "Premium">("Free");
   const [avatarErr, setAvatarErr] = useState(false);
   const [stripeLoading, setStripeLoading] = useState(false);
+  const [activating, setActivating] = useState(false);
 
   const sb = getSupabase();
 
@@ -45,7 +47,7 @@ export default function AccountPage() {
           const { data: lData, error } = await sb!.from("licenses").select("plan").eq("user_id", data.user.id).maybeSingle();
           if (!active) return;
           if (!error && lData?.plan === "premium") { setPlan("Premium"); setLoading(false); return; }
-          if (data.user.user_metadata?.plan === "premium" || data.user.app_metadata?.plan === "premium") { setPlan("Premium"); setLoading(false); return; }
+          if (data.user.app_metadata?.plan === "premium") { setPlan("Premium"); setLoading(false); return; }
           setPlan("Free");
         } catch { setPlan("Free"); }
       }
@@ -58,14 +60,47 @@ export default function AccountPage() {
 
   async function handleUpgrade() {
     setStripeLoading(true);
-    try {
-      const res = await fetch("/api/stripe/checkout", { method: "POST" });
-      const json = await res.json() as { url?: string; error?: string };
-      if (json.url) window.location.assign(json.url);
-      else alert(json.error || "Unable to start checkout. Please try again.");
-    } catch { alert("Network error. Please try again."); }
-    setStripeLoading(false);
+    const problem = await startCheckout();
+    if (problem) {
+      alert(problem);
+      setStripeLoading(false);
+    }
   }
+
+  // ?checkout=1 (opened from the desktop app's Upgrade button): start the payment as soon as the account is known.
+  // ?upgraded=1 (back from Stripe): the webhook grants Premium a moment after the payment, so wait for it.
+  useEffect(() => {
+    if (loading || !user || !sb || plan !== "Free") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("checkout") === "1") {
+      window.history.replaceState(null, "", window.location.pathname);
+      const start = setTimeout(() => void handleUpgrade(), 0);
+      return () => clearTimeout(start);
+    }
+    if (params.get("upgraded") !== "1") return;
+    const show = setTimeout(() => setActivating(true), 0);
+    let tries = 0;
+    const timer = setInterval(async () => {
+      tries += 1;
+      const { data } = await sb.auth.getUser();
+      const fresh = data.user;
+      let premium = fresh?.app_metadata?.plan === "premium";
+      if (!premium && fresh) {
+        const { data: license } = await sb.from("licenses").select("plan").eq("user_id", fresh.id).maybeSingle();
+        premium = license?.plan === "premium";
+      }
+      if (premium) setPlan("Premium");
+      if (premium || tries >= 20) {
+        clearInterval(timer);
+        setActivating(false);
+      }
+    }, 2000);
+    return () => {
+      clearTimeout(show);
+      clearInterval(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, user, plan, sb]);
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
@@ -249,13 +284,15 @@ export default function AccountPage() {
                           className="button primary"
                           style={{ width: "100%", fontSize: 13 }}
                           onClick={handleUpgrade}
-                          disabled={stripeLoading}
+                          disabled={stripeLoading || activating}
                         >
                           {stripeLoading
                             ? <><Loader2 size={14} className="spin" /> Redirecting…</>
                             : <><Sparkles size={14} /> Upgrade to Premium — $15 <ArrowRight size={13} /></>}
                         </button>
-                        <p className="small-note" style={{ textAlign: "center", marginTop: 10 }}>One-time payment · No subscription</p>
+                        <p className="small-note" style={{ textAlign: "center", marginTop: 10 }}>
+                          {activating ? "Payment received — activating Premium on your account…" : "One-time payment · No subscription"}
+                        </p>
                       </>
                     )}
                   </div>

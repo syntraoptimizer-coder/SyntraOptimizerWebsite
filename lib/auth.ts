@@ -32,7 +32,7 @@ export function useAuth() {
         return;
       }
 
-      const metaPlan = currentUser.user_metadata?.plan || currentUser.app_metadata?.plan;
+      const metaPlan = currentUser.app_metadata?.plan; // app_metadata is server-only; user_metadata is user-editable
       if (metaPlan === 'premium') {
         setPlan('premium');
         return;

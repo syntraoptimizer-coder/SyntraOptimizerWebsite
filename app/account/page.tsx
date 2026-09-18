@@ -2,21 +2,8 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Download,
-  ExternalLink,
-  Laptop,
-  LogOut,
-  Mail,
-  Monitor,
-  Moon,
-  ShieldCheck,
-  Sparkles,
-  Sun,
-  User as UserIcon,
-  Zap,
+  ArrowRight, Check, Laptop, LogOut, Moon, ShieldCheck,
+  Sparkles, Sun, ChevronRight, Loader2,
 } from "lucide-react";
 import { getSupabase } from "@/lib/supabase";
 
@@ -26,75 +13,61 @@ export default function AccountPage() {
   const [loading, setLoading] = useState(true);
   const [plan, setPlan] = useState<"Free" | "Premium">("Free");
   const [avatarErr, setAvatarErr] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [stripeLoading, setStripeLoading] = useState(false);
 
   const sb = getSupabase();
 
   useEffect(() => {
-    try {
-      setLight(localStorage.getItem("syntra-theme") !== "dark");
-    } catch {}
+    try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {}
   }, []);
 
   useEffect(() => {
     if (light) delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = "dark";
-    try {
-      localStorage.setItem("syntra-theme", light ? "light" : "dark");
-    } catch {}
+    try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
   }, [light]);
 
   useEffect(() => {
-    if (!sb) {
-      setLoading(false);
-      return;
-    }
-    let active = true;
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    async function checkUser() {
+  useEffect(() => {
+    if (!sb) { setLoading(false); return; }
+    let active = true;
+    async function init() {
       const { data } = await sb!.auth.getUser();
       if (!active) return;
       setUser(data.user);
-
       if (data.user) {
         try {
-          const { data: lData, error } = await sb!
-            .from("licenses")
-            .select("plan")
-            .eq("user_id", data.user.id)
-            .maybeSingle();
-
+          const { data: lData, error } = await sb!.from("licenses").select("plan").eq("user_id", data.user.id).maybeSingle();
           if (!active) return;
-          if (!error && lData?.plan === "premium") {
-            setPlan("Premium");
-            setLoading(false);
-            return;
-          }
-
-          const metaPlan = data.user.user_metadata?.plan || data.user.app_metadata?.plan;
-          if (metaPlan === "premium") {
-            setPlan("Premium");
-            setLoading(false);
-            return;
-          }
+          if (!error && lData?.plan === "premium") { setPlan("Premium"); setLoading(false); return; }
+          if (data.user.user_metadata?.plan === "premium" || data.user.app_metadata?.plan === "premium") { setPlan("Premium"); setLoading(false); return; }
           setPlan("Free");
-        } catch {
-          setPlan("Free");
-        }
+        } catch { setPlan("Free"); }
       }
       setLoading(false);
     }
-
-    void checkUser();
-
-    const { data: sub } = sb.auth.onAuthStateChange((_e, s) => {
-      setUser(s?.user ?? null);
-    });
-
-    return () => {
-      active = false;
-      sub.subscription.unsubscribe();
-    };
+    void init();
+    const { data: sub } = sb.auth.onAuthStateChange((_e, s) => { setUser(s?.user ?? null); });
+    return () => { active = false; sub.subscription.unsubscribe(); };
   }, [sb]);
+
+  async function handleUpgrade() {
+    setStripeLoading(true);
+    try {
+      const res = await fetch("/api/stripe/checkout", { method: "POST" });
+      const json = await res.json() as { url?: string; error?: string };
+      if (json.url) window.location.assign(json.url);
+      else alert(json.error || "Unable to start checkout. Please try again.");
+    } catch { alert("Network error. Please try again."); }
+    setStripeLoading(false);
+  }
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
@@ -105,420 +78,217 @@ export default function AccountPage() {
     : "Social Account";
 
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column",
-      background: "var(--background)",
-      color: "var(--foreground)",
-      fontFamily: "Geist, Arial, sans-serif"
-    }}>
-      {/* Top Navbar */}
-      <header style={{
-        height: "72px",
-        padding: "0 32px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        borderBottom: "1px solid var(--border)",
-        background: "color-mix(in srgb, var(--card) 90%, transparent)",
-        backdropFilter: "blur(20px)",
-        position: "sticky",
-        top: 0,
-        zIndex: 30
-      }}>
-        <a href="/" style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-          fontWeight: 650,
-          fontSize: "18px",
-          textDecoration: "none",
-          color: "var(--foreground)"
-        }}>
-          <img src="/assets/syntra-logo.png" width="32" height="32" alt="Syntra" style={{ borderRadius: "8px" }} />
-          <span>Syntra <span style={{ fontWeight: 400, color: "var(--muted-foreground)" }}>Optimizer</span></span>
-        </a>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          <a href="/" style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "13px",
-            color: "var(--muted-foreground)",
-            textDecoration: "none",
-            padding: "8px 14px",
-            borderRadius: "8px",
-            border: "1px solid var(--border)",
-            background: "var(--card)"
-          }}>
-            <ArrowLeft size={14} /> Back to Website
+    <>
+      <div className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", paddingBottom: 0 }}>
+        {/* Navigation */}
+        <header className={scrolled ? "navigation scrolled" : "navigation"}>
+          <a href="/" className="brand" aria-label="Syntra Optimizer home">
+            <img src="/assets/syntra-logo.png" width="30" height="30" alt="" />
+            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
           </a>
-
-          <button
-            onClick={() => setLight(!light)}
-            style={{
-              width: "38px",
-              height: "38px",
-              borderRadius: "50%",
-              border: "1px solid var(--border)",
-              background: "var(--card)",
-              color: "var(--muted-foreground)",
-              display: "grid",
-              placeItems: "center",
-              cursor: "pointer"
-            }}
-            aria-label="Toggle theme"
-          >
-            {light ? <Moon size={16} /> : <Sun size={16} />}
-          </button>
-        </div>
-      </header>
-
-      {/* Main Container */}
-      <main style={{ flex: 1, padding: "40px 20px" }}>
-        <div style={{ maxWidth: "1040px", margin: "0 auto" }}>
-          {loading ? (
-            <div style={{ textAlign: "center", padding: "80px 20px" }}>
-              <p style={{ color: "var(--muted-foreground)", fontSize: "15px" }}>Loading your account details…</p>
-            </div>
-          ) : !user ? (
-            /* Unauthenticated: prompt login */
-            <div style={{
-              textAlign: "center",
-              padding: "60px 20px",
-              background: "var(--card)",
-              borderRadius: "20px",
-              border: "1px solid var(--border)",
-              maxWidth: "540px",
-              margin: "40px auto"
-            }}>
-              <img src="/assets/syntra-logo.png" width="56" height="56" alt="" style={{ borderRadius: "12px", marginBottom: "16px" }} />
-              <h2 style={{ fontSize: "24px", fontWeight: 600, margin: "0 0 8px 0" }}>You are not signed in</h2>
-              <p style={{ fontSize: "14px", color: "var(--muted-foreground)", margin: "0 0 24px 0" }}>
-                Connect your account via Google, Discord, Microsoft, or GitHub to manage your license and sync settings.
-              </p>
-              <a
-                href="/login"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "8px",
-                  padding: "12px 24px",
-                  borderRadius: "10px",
-                  background: "var(--primary)",
-                  color: "var(--primary-foreground)",
-                  fontWeight: 550,
-                  fontSize: "14px",
-                  textDecoration: "none"
-                }}
+          <div className="nav-actions">
+            <a href="/" className="nav-demo" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+              ← Back to website
+            </a>
+            {user && (
+              <button
+                className="button compact"
+                onClick={async () => { await sb!.auth.signOut(); window.location.href = "/login"; }}
               >
-                Go to Sign In <ArrowRight size={15} />
-              </a>
-            </div>
-          ) : (
-            /* Authenticated Account Dashboard */
-            <div>
-              {/* Top Banner */}
-              <div style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "16px",
-                marginBottom: "32px"
-              }}>
-                <div>
-                  <h1 style={{ fontSize: "28px", fontWeight: 600, letterSpacing: "-0.5px", margin: "0 0 4px 0" }}>
-                    Account Overview
+                <LogOut size={13} /> Sign out
+              </button>
+            )}
+            <button
+              className="theme-toggle"
+              style={{ position: "relative", bottom: "auto", right: "auto", width: 38, height: 38 }}
+              onClick={() => setLight(!light)}
+              aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
+            >
+              {light ? <Moon size={16} /> : <Sun size={16} />}
+            </button>
+          </div>
+        </header>
+
+        <main style={{ flex: 1, padding: "52px 20px 80px" }}>
+          <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+
+            {loading ? (
+              <div style={{ textAlign: "center", padding: "100px 20px" }}>
+                <Loader2 size={28} className="spin" style={{ color: "var(--blue)", margin: "0 auto 14px", display: "block" }} />
+                <p style={{ color: "var(--muted-foreground)", fontSize: 15 }}>Loading your account…</p>
+              </div>
+            ) : !user ? (
+              /* Not signed in */
+              <div style={{ textAlign: "center", padding: "60px 20px", maxWidth: 480, margin: "40px auto" }} className="price-card">
+                <img src="/assets/syntra-logo.png" width={52} height={52} alt="" style={{ borderRadius: 12, marginBottom: 18 }} />
+                <h2 style={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.7px", margin: "0 0 10px" }}>You&apos;re not signed in</h2>
+                <p style={{ fontSize: 14, color: "var(--muted-foreground)", margin: "0 0 28px" }}>
+                  Connect your account via Google, Discord, Microsoft, or GitHub to manage your license and sync settings.
+                </p>
+                <a href="/login" className="button primary" style={{ fontSize: 14 }}>
+                  Go to Sign In <ArrowRight size={15} />
+                </a>
+              </div>
+            ) : (
+              /* Dashboard */
+              <div>
+                {/* Page header */}
+                <div style={{ marginBottom: 36 }}>
+                  <span className="eyebrow">
+                    <ChevronRight size={13} /> ACCOUNT OVERVIEW
+                  </span>
+                  <h1 style={{ fontSize: "clamp(28px, 3.5vw, 42px)", lineHeight: 1.1, letterSpacing: "-1.5px", fontWeight: 460, margin: "14px 0 8px" }}>
+                    Welcome back, <span style={{ color: "var(--blue)" }}>{displayName.split(" ")[0]}</span>.
                   </h1>
-                  <p style={{ fontSize: "14px", color: "var(--muted-foreground)", margin: 0 }}>
+                  <p style={{ fontSize: 14, color: "var(--muted-foreground)", margin: 0 }}>
                     Manage your Syntra Optimizer license and connected desktop devices.
                   </p>
                 </div>
 
-                <button
-                  onClick={async () => {
-                    await sb!.auth.signOut();
-                    window.location.href = "/login";
-                  }}
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    padding: "9px 16px",
-                    borderRadius: "9px",
-                    border: "1px solid var(--border)",
-                    background: "var(--card)",
-                    color: "var(--foreground)",
-                    fontSize: "13px",
-                    fontWeight: 500,
-                    cursor: "pointer"
-                  }}
-                >
-                  <LogOut size={14} /> Sign out
-                </button>
-              </div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, marginBottom: 24 }}>
+                  {/* Profile Card */}
+                  <div className="price-card">
+                    <p className="small-note" style={{ marginBottom: 12 }}>YOUR PROFILE</p>
+                    <div className="account-user-card" style={{ marginBottom: 20 }}>
+                      <div className="account-avatar-wrapper" style={{ width: 56, height: 56 }}>
+                        {avatarUrl && !avatarErr
+                          ? <img src={avatarUrl} alt={displayName} className="account-avatar-img" referrerPolicy="no-referrer" onError={() => setAvatarErr(true)} />
+                          : <span className="account-avatar-initials" style={{ fontSize: 22 }}>{initial}</span>}
+                      </div>
+                      <div className="account-user-info">
+                        <h4 style={{ fontSize: 16 }}>{displayName}</h4>
+                        <p>{user.email}</p>
+                        <div className="account-linked-providers">
+                          <span>via</span>
+                          <strong>{provider}</strong>
+                        </div>
+                      </div>
+                    </div>
 
-              {/* Grid with 2 Columns */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                gap: "24px"
-              }}>
-                {/* 1. User Profile Card */}
-                <div style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "16px",
-                  padding: "28px"
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "20px" }}>
-                    <div style={{
-                      width: "64px",
-                      height: "64px",
-                      borderRadius: "50%",
-                      overflow: "hidden",
-                      border: "2px solid var(--border)",
-                      background: "var(--muted)",
-                      display: "grid",
-                      placeItems: "center",
-                      flexShrink: 0
-                    }}>
-                      {avatarUrl && !avatarErr ? (
-                        <img
-                          src={avatarUrl}
-                          alt={displayName}
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                          referrerPolicy="no-referrer"
-                          onError={() => setAvatarErr(true)}
-                        />
-                      ) : (
-                        <span style={{ fontSize: "24px", fontWeight: 650, color: "var(--blue)" }}>{initial}</span>
+                    <div className="price-divider" />
+                    <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: "var(--muted-foreground)" }}>Account ID</span>
+                        <span style={{ fontFamily: "monospace", fontSize: 11, color: "var(--muted-foreground)" }}>{user.id.slice(0, 16)}…</span>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: "var(--muted-foreground)" }}>Authentication</span>
+                        <strong>{provider}</strong>
+                      </div>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
+                        <span style={{ color: "var(--muted-foreground)" }}>Sync Status</span>
+                        <span style={{ color: "var(--blue)", fontWeight: 550 }}>● Active</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Plan Card */}
+                  <div className={`price-card ${plan === "Premium" ? "premium" : ""}`}>
+                    <div className="price-title">
+                      <div>
+                        <p className="small-note" style={{ marginBottom: 6 }}>MEMBERSHIP</p>
+                        <h3 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          {plan === "Premium"
+                            ? <><Sparkles size={18} style={{ color: "#f59e0b" }} />Syntra Premium</>
+                            : <><ShieldCheck size={18} style={{ color: "var(--blue)" }} />Syntra Free</>}
+                        </h3>
+                      </div>
+                      {plan === "Premium" && (
+                        <span><Sparkles size={10} /> ACTIVE</span>
                       )}
                     </div>
-                    <div>
-                      <h3 style={{ fontSize: "20px", fontWeight: 600, margin: "0 0 2px 0" }}>{displayName}</h3>
-                      <p style={{ fontSize: "13px", color: "var(--muted-foreground)", margin: 0 }}>{user.email}</p>
-                    </div>
-                  </div>
 
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "12px",
-                    borderTop: "1px solid var(--border)",
-                    paddingTop: "16px",
-                    fontSize: "13px"
-                  }}>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "var(--muted-foreground)" }}>Authentication</span>
-                      <strong>{provider}</strong>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "var(--muted-foreground)" }}>Account ID</span>
-                      <span style={{ fontFamily: "monospace", fontSize: "11px", color: "var(--muted-foreground)" }}>
-                        {user.id.slice(0, 16)}…
-                      </span>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                      <span style={{ color: "var(--muted-foreground)" }}>Sync Status</span>
-                      <span style={{ color: "var(--blue)", fontWeight: 550 }}>Active</span>
-                    </div>
-                  </div>
-                </div>
+                    <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 8, marginBottom: 18 }}>
+                      {plan === "Premium"
+                        ? "You have full access to all Syntra desktop features and VIP profile tuning."
+                        : "You're on the Free plan. Upgrade to unlock Gaming mode and advanced Windows tweaks."}
+                    </p>
 
-                {/* 2. Plan Card */}
-                <div style={{
-                  background: plan === "Premium"
-                    ? "linear-gradient(145deg, rgba(245,158,11,0.08), rgba(63,111,224,0.12)), var(--card)"
-                    : "var(--card)",
-                  border: plan === "Premium" ? "1px solid rgba(245,158,11,0.35)" : "1px solid var(--border)",
-                  borderRadius: "16px",
-                  padding: "28px",
-                  display: "flex",
-                  flexDirection: "column"
-                }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
-                    <div>
-                      <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "1px", color: "var(--muted-foreground)" }}>
-                        MEMBERSHIP STATUS
-                      </span>
-                      <h3 style={{ fontSize: "22px", fontWeight: 600, margin: "4px 0 0 0", display: "flex", alignItems: "center", gap: "8px" }}>
-                        {plan === "Premium" ? (
-                          <>
-                            <Sparkles size={20} style={{ color: "#f59e0b" }} />
-                            <span>Syntra Premium</span>
-                          </>
-                        ) : (
-                          <>
-                            <ShieldCheck size={20} style={{ color: "var(--blue)" }} />
-                            <span>Syntra Free Edition</span>
-                          </>
-                        )}
-                      </h3>
-                    </div>
+                    <ul>
+                      {plan === "Premium" ? (
+                        <>
+                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>All performance profiles</strong> — Gaming, Creator & Balanced</li>
+                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Deep system cleanup</strong> — caches, telemetry & logs</li>
+                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Restore point generator</strong> before applying tweaks</li>
+                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Unlimited devices</strong> with this account</li>
+                        </>
+                      ) : (
+                        <>
+                          <li><Check size={13} style={{ color: "var(--blue)" }} /> Basic system scan & cleanup</li>
+                          <li><Check size={13} style={{ color: "var(--blue)" }} /> Balanced everyday profile</li>
+                          <li style={{ color: "var(--muted-foreground)", opacity: 0.75 }}>✕ Gaming mode & low-latency tweaks</li>
+                          <li style={{ color: "var(--muted-foreground)", opacity: 0.75 }}>✕ Custom startup app management</li>
+                        </>
+                      )}
+                    </ul>
 
-                    <span style={{
-                      padding: "4px 10px",
-                      borderRadius: "6px",
-                      fontSize: "11px",
-                      fontWeight: 650,
-                      background: plan === "Premium" ? "linear-gradient(135deg, #f59e0b, #d97706)" : "var(--secondary)",
-                      color: plan === "Premium" ? "#fff" : "var(--foreground)",
-                      border: plan === "Premium" ? "none" : "1px solid var(--border)"
-                    }}>
-                      {plan === "Premium" ? "ACTIVE LICENSE" : "FREE TIER"}
-                    </span>
-                  </div>
-
-                  <p style={{ fontSize: "13px", color: "var(--muted-foreground)", margin: "0 0 18px 0" }}>
-                    {plan === "Premium"
-                      ? "Your account has complete access to all Syntra desktop features and VIP profile tuning."
-                      : "You are currently on the Free plan. Upgrade to unlock dedicated Gaming and advanced Windows tweaks."}
-                  </p>
-
-                  <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "8px",
-                    fontSize: "12px",
-                    marginBottom: "24px",
-                    flex: 1
-                  }}>
-                    {plan === "Premium" ? (
+                    {plan === "Free" && (
                       <>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "#f59e0b" }} /> <strong>All performance profiles:</strong> Gaming, Creator & Balanced
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "#f59e0b" }} /> <strong>System deep cleanup:</strong> Caches, telemetry, and logs
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "#f59e0b" }} /> <strong>Restore point generator</strong> before applying tweaks
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "#f59e0b" }} /> <strong>Unlimited devices</strong> with this account
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "var(--blue)" }} /> Basic system scan & temporary files cleanup
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                          <Check size={14} style={{ color: "var(--blue)" }} /> Balanced everyday profile
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--muted-foreground)" }}>
-                          ✕ Gaming mode low-latency tweaks (Premium)
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--muted-foreground)" }}>
-                          ✕ Custom startup app management (Premium)
-                        </div>
+                        <div className="price-divider" />
+                        <button
+                          className="button primary"
+                          style={{ width: "100%", fontSize: 13 }}
+                          onClick={handleUpgrade}
+                          disabled={stripeLoading}
+                        >
+                          {stripeLoading
+                            ? <><Loader2 size={14} className="spin" /> Redirecting…</>
+                            : <><Sparkles size={14} /> Upgrade to Premium — $15 <ArrowRight size={13} /></>}
+                        </button>
+                        <p className="small-note" style={{ textAlign: "center", marginTop: 10 }}>One-time payment · No subscription</p>
                       </>
                     )}
                   </div>
-
-                  {plan === "Free" && (
-                    <a
-                      href="/#pricing"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: "8px",
-                        padding: "12px",
-                        borderRadius: "10px",
-                        background: "linear-gradient(135deg, #3f6fe0, #2554c7)",
-                        color: "#ffffff",
-                        fontWeight: 600,
-                        fontSize: "13px",
-                        textDecoration: "none",
-                        boxShadow: "0 4px 14px rgba(63, 111, 224, 0.3)"
-                      }}
-                    >
-                      <Sparkles size={15} /> Upgrade to Premium for $15 <ArrowRight size={14} />
-                    </a>
-                  )}
-                </div>
-              </div>
-
-              {/* 3. Link with Desktop App Card */}
-              <div style={{
-                marginTop: "24px",
-                background: "var(--card)",
-                border: "1px solid var(--border)",
-                borderRadius: "16px",
-                padding: "28px"
-              }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "14px" }}>
-                  <div style={{
-                    width: "36px",
-                    height: "36px",
-                    borderRadius: "10px",
-                    background: "var(--secondary)",
-                    border: "1px solid var(--border)",
-                    display: "grid",
-                    placeItems: "center",
-                    color: "var(--blue)"
-                  }}>
-                    <Laptop size={18} />
-                  </div>
-                  <div>
-                    <h3 style={{ fontSize: "17px", fontWeight: 600, margin: 0 }}>Sync with Syntra Optimizer Desktop App</h3>
-                    <p style={{ fontSize: "12px", color: "var(--muted-foreground)", margin: "2px 0 0 0" }}>
-                      How your web account connects with the PC application
-                    </p>
-                  </div>
                 </div>
 
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                  gap: "16px",
-                  marginTop: "20px"
-                }}>
-                  <div style={{ padding: "16px", borderRadius: "12px", background: "var(--secondary)", border: "1px solid var(--border)" }}>
-                    <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--blue)" }}>STEP 1</span>
-                    <h4 style={{ fontSize: "14px", fontWeight: 600, margin: "6px 0 4px 0" }}>Download the App</h4>
-                    <p style={{ fontSize: "12px", color: "var(--muted-foreground)", margin: 0 }}>
-                      Install Syntra Optimizer for Windows on your computer.
-                    </p>
+                {/* Desktop Sync Steps */}
+                <div className="price-card">
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+                    <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--secondary)", border: "1px solid var(--border)", display: "grid", placeItems: "center", color: "var(--blue)" }}>
+                      <Laptop size={17} />
+                    </div>
+                    <div>
+                      <h3 style={{ fontSize: 16, fontWeight: 550, margin: 0 }}>Sync with Desktop App</h3>
+                      <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "2px 0 0" }}>How your web account connects with the PC application</p>
+                    </div>
                   </div>
 
-                  <div style={{ padding: "16px", borderRadius: "12px", background: "var(--secondary)", border: "1px solid var(--border)" }}>
-                    <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--blue)" }}>STEP 2</span>
-                    <h4 style={{ fontSize: "14px", fontWeight: 600, margin: "6px 0 4px 0" }}>Sign in with {provider}</h4>
-                    <p style={{ fontSize: "12px", color: "var(--muted-foreground)", margin: 0 }}>
-                      In the desktop sign-in screen, choose <strong>{provider}</strong>.
-                    </p>
-                  </div>
-
-                  <div style={{ padding: "16px", borderRadius: "12px", background: "var(--secondary)", border: "1px solid var(--border)" }}>
-                    <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--blue)" }}>STEP 3</span>
-                    <h4 style={{ fontSize: "14px", fontWeight: 600, margin: "6px 0 4px 0" }}>Instant License Activation</h4>
-                    <p style={{ fontSize: "12px", color: "var(--muted-foreground)", margin: 0 }}>
-                      Your {plan} tier and profile photo are immediately recognized on your PC!
-                    </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+                    {[
+                      { step: "01", title: "Download the App", desc: "Install Syntra Optimizer for Windows on your computer." },
+                      { step: "02", title: `Sign in with ${provider}`, desc: `In the desktop sign-in screen, choose ${provider}.` },
+                      { step: "03", title: "Instant Activation", desc: `Your ${plan} tier and profile are immediately recognized on your PC.` },
+                    ].map(({ step, title, desc }) => (
+                      <div key={step} style={{ padding: "16px 18px", borderRadius: 12, background: "var(--secondary)", border: "1px solid var(--border)" }}>
+                        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", color: "var(--blue)" }}>STEP {step}</span>
+                        <h4 style={{ fontSize: 14, fontWeight: 580, margin: "6px 0 4px" }}>{title}</h4>
+                        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: 0 }}>{desc}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      </main>
+            )}
+          </div>
+        </main>
 
-      {/* Footer */}
-      <footer style={{
-        padding: "24px 32px",
-        textAlign: "center",
-        fontSize: "12px",
-        color: "var(--muted-foreground)",
-        borderTop: "1px solid var(--border)"
-      }}>
-        © {new Date().getFullYear()} Syntra Optimizer. All rights reserved.
-      </footer>
-    </div>
+        <footer>
+          <a href="/" className="brand">
+            <img src="/assets/syntra-logo.png" width={26} height={26} alt="" />
+            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
+          </a>
+          <span>© {new Date().getFullYear()} Syntra Optimizer</span>
+          <a href="#top">Back to top ↑</a>
+        </footer>
+      </div>
+
+      <button
+        className="theme-toggle"
+        onClick={() => setLight(!light)}
+        aria-label={light ? "Switch to dark theme" : "Switch to light theme"}
+      >
+        {light ? <Moon size={19} /> : <Sun size={19} />}
+      </button>
+    </>
   );
 }

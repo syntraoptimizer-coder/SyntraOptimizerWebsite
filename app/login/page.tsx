@@ -201,11 +201,11 @@ export default function LoginPage() {
                 Made personal.
               </h1>
               <p style={{ fontSize: 15, color: "var(--muted-foreground)", lineHeight: 1.7, marginBottom: 36, maxWidth: 420 }}>
-                Connect your account to activate your <strong>Free</strong> or <strong>Premium</strong> license in the Syntra Optimizer desktop app — on all your devices.
+                Connect your account to activate your <strong>Free</strong> or <strong>Premium</strong> license in the Syntra Optimizer desktop app on your PC.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                 {[
-                  { icon: <Monitor size={15} />, title: "Desktop App Sync", desc: "Sign in once and your license activates automatically on every PC you own." },
+                  { icon: <Monitor size={15} />, title: "Desktop App Sync", desc: "Sign in once and your license activates automatically on your PC (one PC per account)." },
                   { icon: <Sparkles size={15} style={{ color: "#f59e0b" }} />, title: "Free & Premium Tiers", desc: "View your perks, unlock advanced gaming tweaks, and manage license keys." },
                   { icon: <ShieldCheck size={15} />, title: "Safe & Encrypted", desc: "Backed by Supabase auth. No password to memorize, ever." },
                 ].map(({ icon, title, desc }) => (
@@ -251,7 +251,7 @@ export default function LoginPage() {
                     </div>
                     {plan === "Premium" ? (
                       <ul className="plan-perks-list">
-                        {["All performance profiles (Gaming, Creator, Balanced)", "Deep system & registry cleanup", "Restore point generator", "Unlimited devices"].map(p => (
+                        {["All performance profiles (Gaming, Creator, Balanced)", "Deep system & registry cleanup", "Restore point generator", "One PC per account, transferable"].map(p => (
                           <li key={p}><Check size={13} /> {p}</li>
                         ))}
                       </ul>

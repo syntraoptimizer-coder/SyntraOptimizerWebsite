@@ -22,11 +22,16 @@ function emailFresh(accessToken: string | undefined) {
   }
 }
 
-function friendly(message: string) {
-  if (/limit/i.test(message)) return "You've reached the reset limit (2 per 30 days). Contact support if you need more.";
-  if (/confirmation/i.test(message)) return "Please confirm with the link we email you first.";
-  if (/rate|seconds|too many/i.test(message)) return "An email was just sent. Wait a minute before asking again.";
-  return "Something went wrong. Please try again.";
+function friendly({ message, code }: { message: string; code?: string }) {
+  if (/reset limit/i.test(message)) return "You've reached the reset limit (2 per 30 days). Contact support if you need more.";
+  if (/email confirmation required/i.test(message)) return "Please confirm with the link we email you first.";
+  if (/rate limit|seconds|too many|over_email_send_rate_limit/i.test(`${message} ${code ?? ""}`))
+    return "Too many emails were sent recently. Wait a few minutes before asking again.";
+  if (/signups not allowed|user not found|otp_disabled/i.test(`${message} ${code ?? ""}`))
+    return "This account can't receive a confirmation link because no email sign-in exists for it yet. Contact support and we'll reset it for you.";
+  if (/sending|smtp|unexpected_failure/i.test(`${message} ${code ?? ""}`))
+    return "The confirmation email could not be sent right now. Please try again in a few minutes.";
+  return `Something went wrong: ${message}${code ? ` (${code})` : ""}`;
 }
 const fmt = (iso: string | null) => (iso ? new Date(iso).toLocaleString() : "—");
 
@@ -67,14 +72,14 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
       options: { shouldCreateUser: false, emailRedirectTo: `${window.location.origin}/account?confirm=${CONFIRM_PARAM}` },
     });
     setBusy(false);
-    if (otpError) setError(friendly(otpError.message)); else setSent(true);
+    if (otpError) setError(friendly(otpError)); else setSent(true);
   }
 
   async function confirmReset() {
     setBusy(true); setError("");
     const { error: rpcError } = await sb.rpc("reset_device");
     setBusy(false);
-    if (rpcError) { setError(friendly(rpcError.message)); return; }
+    if (rpcError) { setError(friendly(rpcError)); return; }
     setDone(true);
     window.history.replaceState(null, "", "/account");
     void load();

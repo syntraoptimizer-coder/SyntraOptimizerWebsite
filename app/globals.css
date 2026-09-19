@@ -128,3 +128,25 @@ body,.card,.button,.navigation,.hero,.price-card,.security-visual,.overview-ui,.
 .nav-plan-pill.premium{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
 .nav-plan-pill.free{background:var(--border);color:var(--muted-foreground)}
 
+
+/* ── VirusTotal scan badge ── */
+.vt-card{display:flex;align-items:center;gap:28px;flex-wrap:wrap;max-width:1040px;margin:40px auto 0;padding:26px 30px;border:1px solid var(--border);border-radius:20px;background:var(--card)}
+.vt-gauge{position:relative;width:104px;height:104px;flex:none}
+.vt-gauge svg{display:block}
+.vt-track{fill:none;stroke:var(--border);stroke-width:8}
+.vt-arc{fill:none;stroke-width:8;stroke-linecap:round}
+.vt-gauge.clean .vt-arc{stroke:#22a06b}
+.vt-gauge.flagged .vt-arc{stroke:#dc2626}
+.vt-score{position:absolute;inset:0;display:grid;place-content:center;text-align:center;line-height:1.1}
+.vt-score strong{font-size:30px;font-weight:600;letter-spacing:-1px}
+.vt-score span{font-size:12px;color:var(--muted-foreground)}
+.vt-body{flex:1 1 320px;min-width:0}
+.vt-eyebrow{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#22a06b;margin:0 0 6px}
+.vt-body h3{font-size:18px;font-weight:550;letter-spacing:-.3px;margin:0 0 6px}
+.vt-meta{font-size:13px;color:var(--muted-foreground);margin:0 0 10px}
+.vt-logo-link{display:inline-flex;color:var(--foreground);opacity:.85}
+.vt-logo-link:hover{opacity:1}
+.vt-logo-link img{height:22px;width:auto;display:block}
+:root[data-theme=dark] .vt-logo-link img{filter:invert(1)}
+.vt-hash{font:11px/1.4 ui-monospace,monospace;color:var(--muted-foreground);margin:10px 0 0;overflow-wrap:anywhere}
+@media (max-width:640px){.vt-card{padding:22px 20px;gap:18px}}

@@ -5,9 +5,11 @@ import {
   ArrowRight, Check, Laptop, LogOut, Moon, ShieldCheck,
   Sparkles, Sun, ChevronRight, ChevronDown, Loader2, Menu, X, ArrowUpRight,
 } from "lucide-react";
+import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from "@/lib/supabase";
 import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
+import DeviceCard from "@/components/DeviceCard";
 
 export default function AccountPage() {
   const [light, setLight] = useState(true);
@@ -104,7 +106,7 @@ export default function AccountPage() {
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
-  const avatarUrl = meta.avatar_url || meta.picture;
+  const avatarUrl = getAvatarUrl(user);
   const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
   const provider = user?.app_metadata?.provider
     ? user.app_metadata.provider.charAt(0).toUpperCase() + user.app_metadata.provider.slice(1)
@@ -265,7 +267,7 @@ export default function AccountPage() {
                           <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>All performance profiles</strong> — Gaming, Creator & Balanced</li>
                           <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Deep system cleanup</strong> — caches, telemetry & logs</li>
                           <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Restore point generator</strong> before applying tweaks</li>
-                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Unlimited devices</strong> with this account</li>
+                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>One PC per account</strong> — transferable from your account page</li>
                         </>
                       ) : (
                         <>
@@ -297,6 +299,8 @@ export default function AccountPage() {
                     )}
                   </div>
                 </div>
+
+                <DeviceCard sb={sb!} user={user} />
 
                 {/* Desktop Sync Steps */}
                 <div className="price-card">

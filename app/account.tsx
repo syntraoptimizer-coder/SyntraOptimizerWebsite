@@ -3,6 +3,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import type { User } from '@supabase/supabase-js';
 import { ArrowRight, Mail, ShieldCheck, Sparkles, Check, LogOut, Loader2, Zap } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from '@/lib/supabase';
 
 function GoogleIcon() {
@@ -155,7 +156,7 @@ export default function Account({
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split('@')[0] || 'Syntra Member');
-  const avatarUrl = meta.avatar_url || meta.picture;
+  const avatarUrl = getAvatarUrl(user);
   const initial = displayName.trim().charAt(0).toUpperCase() || 'S';
 
   return (

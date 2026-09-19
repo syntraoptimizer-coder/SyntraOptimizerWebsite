@@ -6,6 +6,7 @@ import {
   Loader2, Sun, Moon, Zap, Monitor, ExternalLink, ChevronRight,
   ChevronDown, Menu, X, ArrowUpRight,
 } from "lucide-react";
+import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from "@/lib/supabase";
 import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
@@ -136,7 +137,7 @@ export default function LoginPage() {
 
   const meta = user?.user_metadata || {};
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
-  const avatarUrl = meta.avatar_url || meta.picture;
+  const avatarUrl = getAvatarUrl(user);
   const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
 
   return (

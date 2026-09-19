@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { ArrowRight, Mail, ShieldCheck, Sparkles, Check, LogOut, Loader2, Zap } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Sparkles, Check, LogOut, Loader2 } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from '@/lib/supabase';
+import EmailPasswordForm from '@/components/EmailPasswordForm';
 
 function GoogleIcon() {
   return (
@@ -53,8 +54,6 @@ export default function Account({
   onOpenChange: (v: boolean) => void;
   onUpgrade?: () => void;
 }) {
-  const [email, setEmail] = useState('');
-  const [busy, setBusy] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<string | null>(null);
   const [message, setMessage] = useState('');
   const [user, setUser] = useState<User | null>(null);
@@ -130,27 +129,6 @@ export default function Account({
       const msg = err instanceof Error ? err.message : 'Authentication failed';
       setMessage(`Unable to connect with ${provider}: ${msg}`);
       setOauthLoading(null);
-    }
-  }
-
-  async function submitEmail(e: FormEvent) {
-    e.preventDefault();
-    if (!sb) return;
-    setBusy(true);
-    setMessage('');
-    try {
-      const { error } = await sb.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: window.location.origin,
-        },
-      });
-      if (error) throw error;
-      setMessage('Check your inbox for a secure sign-in link. You can close this window.');
-    } catch {
-      setMessage('We couldn’t send your link. Check your email address and try again.');
-    } finally {
-      setBusy(false);
     }
   }
 
@@ -394,39 +372,20 @@ export default function Account({
                   margin: "14px 0"
                 }}>
                   <span style={{ flex: 1, borderBottom: "1px solid var(--border)" }} />
-                  <span style={{ padding: "0 10px" }}>or email sign-in link</span>
+                  <span style={{ padding: "0 10px" }}>or use your email</span>
                   <span style={{ flex: 1, borderBottom: "1px solid var(--border)" }} />
                 </div>
 
-                <form onSubmit={submitEmail} className="account-email-form">
-                  <label htmlFor="account-email">Email address</label>
-                  <div className="email-field">
-                    <Mail size={16} />
-                    <input
-                      id="account-email"
-                      type="email"
-                      autoComplete="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      required
-                      maxLength={254}
-                    />
-                  </div>
-                  <button className="button secondary w-full" disabled={busy || !!oauthLoading}>
-                    {busy ? 'Sending link…' : 'Send sign-in link'}
-                    <ArrowRight size={14} />
-                  </button>
-                  <div style={{ textAlign: "center", marginTop: "12px" }}>
-                    <a
-                      href="/login"
-                      onClick={() => onOpenChange(false)}
-                      style={{ fontSize: "12px", color: "var(--blue)", textDecoration: "none" }}
-                    >
-                      Open dedicated full page →
-                    </a>
-                  </div>
-                </form>
+                <EmailPasswordForm sb={sb!} onDone={() => onOpenChange(false)} />
+                <div style={{ textAlign: "center", marginTop: "12px" }}>
+                  <a
+                    href="/login"
+                    onClick={() => onOpenChange(false)}
+                    style={{ fontSize: "12px", color: "var(--blue)", textDecoration: "none" }}
+                  >
+                    Open dedicated full page →
+                  </a>
+                </div>
               </>
             )}
           </div>

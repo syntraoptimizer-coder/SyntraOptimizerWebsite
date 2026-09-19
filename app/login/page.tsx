@@ -1,13 +1,14 @@
 "use client";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
-  ArrowRight, Mail, ShieldCheck, Sparkles, Check, LogOut,
+  ArrowRight, ShieldCheck, Sparkles, Check, LogOut,
   Loader2, Sun, Moon, Zap, Monitor, ExternalLink, ChevronRight,
   ChevronDown, Menu, X, ArrowUpRight,
 } from "lucide-react";
 import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from "@/lib/supabase";
+import EmailPasswordForm from "@/components/EmailPasswordForm";
 import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
 
@@ -53,8 +54,7 @@ export default function LoginPage() {
   const [light, setLight] = useState(true);
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [email, setEmail] = useState("");
-  const [busy, setBusy] = useState(false);
+  const [recovering, setRecovering] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [user, setUser] = useState<User | null>(null);
@@ -79,8 +79,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (!sb) return;
     let active = true;
+    if (window.location.hash.includes("type=recovery")) void Promise.resolve().then(() => { if (active) setRecovering(true); });
     sb.auth.getUser().then(({ data }) => { if (active) setUser(data.user); });
-    const { data } = sb.auth.onAuthStateChange((_e, s) => { setUser(s?.user ?? null); });
+    const { data } = sb.auth.onAuthStateChange((event, s) => {
+      if (event === "PASSWORD_RECOVERY") setRecovering(true);
+      setUser(s?.user ?? null);
+    });
     return () => { active = false; data.subscription.unsubscribe(); };
   }, [sb]);
 
@@ -116,23 +120,6 @@ export default function LoginPage() {
       setMessage(`Unable to connect: ${err instanceof Error ? err.message : "Authentication failed"}`);
       setOauthLoading(null);
     }
-  }
-
-  async function submitEmail(e: FormEvent) {
-    e.preventDefault();
-    if (!sb) return;
-    setBusy(true);
-    setMessage("");
-    try {
-      const { error } = await sb.auth.signInWithOtp({
-        email,
-        options: { emailRedirectTo: `${window.location.origin}/account` },
-      });
-      if (error) throw error;
-      setMessage("✓ Un lien de connexion sécurisé a été envoyé à votre adresse email.");
-    } catch {
-      setMessage("Impossible d'envoyer le lien. Vérifiez votre adresse email.");
-    } finally { setBusy(false); }
   }
 
   const meta = user?.user_metadata || {};
@@ -207,7 +194,7 @@ export default function LoginPage() {
                 {[
                   { icon: <Monitor size={15} />, title: "Desktop App Sync", desc: "Sign in once and your license activates automatically on your PC (one PC per account)." },
                   { icon: <Sparkles size={15} style={{ color: "#f59e0b" }} />, title: "Free & Premium Tiers", desc: "View your perks, unlock advanced gaming tweaks, and manage license keys." },
-                  { icon: <ShieldCheck size={15} />, title: "Safe & Encrypted", desc: "Backed by Supabase auth. No password to memorize, ever." },
+                  { icon: <ShieldCheck size={15} />, title: "Safe & Encrypted", desc: "Sign in with a password, a one-time email link, or Google, Discord, Microsoft or GitHub." },
                 ].map(({ icon, title, desc }) => (
                   <div key={title} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
                     <div style={{ width: 28, height: 28, borderRadius: 8, background: "var(--secondary)", border: "1px solid var(--border)", display: "grid", placeItems: "center", color: "var(--blue)", flexShrink: 0 }}>
@@ -224,7 +211,7 @@ export default function LoginPage() {
 
             {/* Right: auth card */}
             <div className="price-card" style={{ boxShadow: "0 24px 60px -28px rgba(20,26,33,.22)" }}>
-              {user ? (
+              {user && !recovering ? (
                 <div>
                   <div className="account-user-card" style={{ marginBottom: 20 }}>
                     <div className="account-avatar-wrapper">
@@ -295,7 +282,7 @@ export default function LoginPage() {
                   <div style={{ marginBottom: 24 }}>
                     <img src="/assets/syntra-logo.png" width={40} height={40} alt="" style={{ borderRadius: 10, marginBottom: 12 }} />
                     <h2 style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.6px", margin: "0 0 6px" }}>Connect to Syntra</h2>
-                    <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Select a provider to link your account.</p>
+                    <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Sign in or create your account.</p>
                   </div>
 
                   <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
@@ -320,28 +307,9 @@ export default function LoginPage() {
                     ))}
                   </div>
 
-                  <div className="oauth-divider"><span>or sign in with email</span></div>
+                  <div className="oauth-divider"><span>or use your email</span></div>
 
-                  <form onSubmit={submitEmail} style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 16 }}>
-                    <label className="account-email-form" htmlFor="login-email">Email address</label>
-                    <div className="email-field">
-                      <Mail size={15} />
-                      <input
-                        id="login-email"
-                        type="email"
-                        autoComplete="email"
-                        placeholder="you@example.com"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        required
-                        maxLength={254}
-                      />
-                    </div>
-                    <button type="submit" className="button secondary" style={{ width: "100%", fontSize: 13 }} disabled={busy || !!oauthLoading}>
-                      {busy ? "Sending secure link…" : "Email me a sign-in link"} <ArrowRight size={14} />
-                    </button>
-                    <p className="small-note" style={{ textAlign: "center" }}>Password-free · New users are registered automatically.</p>
-                  </form>
+                  <EmailPasswordForm sb={sb!} recovering={recovering} onDone={() => { setRecovering(false); window.location.assign("/account"); }} />
                 </div>
               )}
 

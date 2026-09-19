@@ -150,3 +150,39 @@ body,.card,.button,.navigation,.hero,.price-card,.security-visual,.overview-ui,.
 :root[data-theme=dark] .vt-logo-link img{filter:invert(1)}
 .vt-hash{font:11px/1.4 ui-monospace,monospace;color:var(--muted-foreground);margin:10px 0 0;overflow-wrap:anywhere}
 @media (max-width:640px){.vt-card{padding:22px 20px;gap:18px}}
+
+/* ── Email + password form (components/EmailPasswordForm.tsx) ── */
+.ep-form{display:flex;flex-direction:column;gap:16px;margin-top:4px}
+.ep-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--secondary);border:1px solid var(--border)}
+.ep-tabs button{height:36px;border:0;border-radius:9px;background:transparent;color:var(--muted-foreground);font-size:13px;font-weight:540;transition:background-color .2s,color .2s,box-shadow .2s}
+.ep-tabs button:hover{color:var(--foreground)}
+.ep-tabs button.on{background:var(--card);color:var(--foreground);box-shadow:0 1px 3px rgba(0,0,0,.18),0 0 0 1px var(--border)}
+.ep-head h3{font-size:17px;font-weight:540;letter-spacing:-.3px;margin:6px 0 4px}
+.ep-head p{font-size:13px;line-height:1.55;color:var(--muted-foreground);margin:0}
+.ep-back{border:0;background:none;padding:0;font-size:12.5px;color:var(--muted-foreground)}
+.ep-back:hover{color:var(--foreground)}
+.ep-field{display:flex;flex-direction:column;gap:7px}
+.ep-label{display:flex;align-items:center;justify-content:space-between;min-height:16px}
+.ep-label label{font-size:12.5px;font-weight:540;color:var(--foreground)}
+.ep-link{border:0;background:none;padding:0;font-size:12.5px;color:var(--blue)}
+.ep-link:hover{text-decoration:underline}
+.ep-input{display:flex;align-items:center;gap:10px;height:46px;padding:0 14px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--muted-foreground);transition:border-color .2s,box-shadow .2s}
+.ep-input:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 20%,transparent);color:var(--foreground)}
+.ep-input input{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:var(--foreground);font:inherit;font-size:14px}
+.ep-input input::placeholder{color:var(--muted-foreground);opacity:.7}
+.ep-eye{display:grid;place-items:center;border:0;background:none;padding:4px;margin-right:-4px;border-radius:6px;color:var(--muted-foreground)}
+.ep-eye:hover{color:var(--foreground)}
+.ep-submit{width:100%;height:46px;justify-content:center;gap:8px;border-radius:12px;font-size:14px;font-weight:560}
+.ep-submit:disabled{opacity:.7;cursor:not-allowed}
+.ep-alt{border:0;background:none;padding:2px 0;text-align:center;font-size:12.5px;color:var(--muted-foreground)}
+.ep-alt:hover{color:var(--foreground);text-decoration:underline}
+.ep-msg{display:flex;gap:9px;align-items:flex-start;margin:0;padding:11px 13px;border-radius:11px;font-size:13px;line-height:1.5;border:1px solid}
+.ep-msg svg{flex:none;margin-top:2px}
+.ep-msg.ok{border-color:color-mix(in srgb,var(--blue) 38%,var(--border));background:color-mix(in srgb,var(--blue) 10%,var(--card))}
+.ep-msg.ok svg{color:var(--blue)}
+.ep-msg.err{border-color:color-mix(in srgb,#dc2626 42%,var(--border));background:color-mix(in srgb,#dc2626 10%,var(--card))}
+.ep-msg.err svg{color:#dc2626}
+/* Login card: the four providers as a 2×2 grid so the email form sits higher */
+.login-providers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.login-providers .oauth-button{justify-content:center;gap:9px;height:44px;padding:0 12px;font-size:13px;font-weight:540}
+@media(max-width:420px){.login-providers{grid-template-columns:1fr}}

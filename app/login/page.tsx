@@ -285,24 +285,23 @@ export default function LoginPage() {
                     <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Sign in or create your account.</p>
                   </div>
 
-                  <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
+                  <div className="login-providers">
                     {([
-                      { provider: "google" as const, icon: <GoogleIcon />, label: "Continue with Google" },
-                      { provider: "discord" as const, icon: <DiscordIcon />, label: "Continue with Discord" },
-                      { provider: "azure" as const, icon: <MicrosoftIcon />, label: "Continue with Microsoft" },
-                      { provider: "github" as const, icon: <GithubIcon />, label: "Continue with GitHub" },
+                      { provider: "google" as const, icon: <GoogleIcon />, label: "Google" },
+                      { provider: "discord" as const, icon: <DiscordIcon />, label: "Discord" },
+                      { provider: "azure" as const, icon: <MicrosoftIcon />, label: "Microsoft" },
+                      { provider: "github" as const, icon: <GithubIcon />, label: "GitHub" },
                     ]).map(({ provider, icon, label }) => (
                       <button
                         key={provider}
                         type="button"
                         className="oauth-button"
-                        style={{ justifyContent: "flex-start", gap: 12, padding: "12px 16px", fontSize: 14, fontWeight: 540, width: "100%" }}
+                        aria-label={`Continue with ${label}`}
                         disabled={!!oauthLoading}
                         onClick={() => handleOAuth(provider)}
                       >
                         {oauthLoading === provider ? <Loader2 size={18} className="spin" /> : icon}
-                        <span style={{ flex: 1, textAlign: "left" }}>{label}</span>
-                        <ArrowRight size={14} style={{ opacity: 0.4 }} />
+                        <span>{label}</span>
                       </button>
                     ))}
                   </div>

@@ -9,7 +9,12 @@ export function getStripe(): Stripe | null {
 /** Where Stripe sends the customer back to. The configured production URL wins over the request's Origin. */
 export function siteOrigin(req: Request): string {
   const configured = (process.env.NEXT_PUBLIC_APP_URL || "").trim().replace(/\/+$/, "");
-  return configured || req.headers.get("origin") || "http://localhost:3000";
+  const origin = req.headers.get("origin");
+  // A localhost value baked in from a local .env.local sent customers back to localhost after paying ("localhost
+  // refused to connect"). Only trust a localhost URL when the request itself comes from localhost.
+  const isLocal = (url: string) => /^https?:\/\/(localhost|127\.0\.0\.1)(:|\/|$)/i.test(url);
+  if (configured && (!isLocal(configured) || (origin && isLocal(origin)))) return configured;
+  return origin || configured || "http://localhost:3000";
 }
 
 /**

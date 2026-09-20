@@ -338,6 +338,12 @@ export default function LoginPage() {
             <img src="/assets/syntra-logo.png" width={26} height={26} alt="" />
             <span>Velyro<span className="brand-sub"> Optimizer</span></span>
           </a>
+          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", fontSize: 13 }}>
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/refund">Refunds</a>
+            <a href="/cookies">Cookies</a>
+          </div>
           <span>© {new Date().getFullYear()} Velyro Optimizer</span>
           <a href="#top">Back to top ↑</a>
         </footer>

@@ -106,14 +106,30 @@ export default function LoginPage() {
     return () => { active = false; };
   }, [user, sb]);
 
+  const getRedirectUrl = () => {
+    if (typeof window === "undefined") return "/account";
+    const target = new URLSearchParams(window.location.search).get("redirect");
+    return target && target.startsWith("/") ? target : "/account";
+  };
+
+  useEffect(() => {
+    if (user && !recovering) {
+      const redirect = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("redirect") : null;
+      if (redirect && redirect.startsWith("/")) {
+        window.location.assign(redirect);
+      }
+    }
+  }, [user, recovering]);
+
   async function handleOAuth(provider: "google" | "discord" | "azure" | "github") {
     if (!sb) return;
     setOauthLoading(provider);
     setMessage("");
     try {
+      const redirectTarget = getRedirectUrl();
       const { error } = await sb.auth.signInWithOAuth({
         provider,
-        options: { redirectTo: `${window.location.origin}/account` },
+        options: { redirectTo: `${window.location.origin}${redirectTarget}` },
       });
       if (error) throw error;
     } catch (err: unknown) {
@@ -161,12 +177,12 @@ export default function LoginPage() {
             ) : (
               <span className="nav-demo" style={{ color: "var(--blue)", fontWeight: 550 }}>Sign in</span>
             )}
-            <button
+            <a
+              href="/download"
               className="button primary compact"
-              onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
               Get Velyro <ArrowUpRight size={14} />
-            </button>
+            </a>
             <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
               {menu ? <X /> : <Menu />}
             </button>
@@ -308,7 +324,7 @@ export default function LoginPage() {
 
                   <div className="oauth-divider"><span>or use your email</span></div>
 
-                  <EmailPasswordForm sb={sb!} recovering={recovering} onDone={() => { setRecovering(false); window.location.assign("/account"); }} />
+                  <EmailPasswordForm sb={sb!} recovering={recovering} onDone={() => { setRecovering(false); window.location.assign(getRedirectUrl()); }} />
                 </div>
               )}
 

@@ -148,12 +148,12 @@ export default function AccountPage() {
             ) : (
               <a href="/login" className="nav-demo">Sign in</a>
             )}
-            <button
+            <a
+              href="/download"
               className="button primary compact"
-              onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
               Get Velyro <ArrowUpRight size={14} />
-            </button>
+            </a>
             <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
               {menu ? <X /> : <Menu />}
             </button>

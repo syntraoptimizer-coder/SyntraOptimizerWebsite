@@ -6,10 +6,10 @@ import { ArrowUpRight, ShieldCheck } from "lucide-react";
  */
 const SCAN = {
   fileName: "Velyro Optimizer Setup 1.0.0.exe",
-  sha256: "95833c3113c435318be5e3aca015411179bcfa4b255a1f79ff0bceca54db2708",
+  sha256: "f5071cf17e89dc8e6766c92e7241fd37771c2e12f365e6c6ff68adf32ce77591",
   flagged: 0,
   vendors: 66,
-  scannedOn: "September 19, 2026",
+  scannedOn: "September 20, 2026",
 };
 const REPORT_URL = `https://www.virustotal.com/gui/file/${SCAN.sha256}/detection`;
 

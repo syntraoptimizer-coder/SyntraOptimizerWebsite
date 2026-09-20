@@ -1,6 +1,6 @@
 -- Keeps the desktop app's view of the plan in step with the website's.
 --
--- The website reads public.licenses.plan; the Syntra Optimizer desktop app reads the account's app_metadata.plan
+-- The website reads public.licenses.plan; the Velyro Optimizer desktop app reads the account's app_metadata.plan
 -- (only the server can write app_metadata, so users cannot promote themselves). The Stripe webhook already writes
 -- both, but this trigger guarantees they can never drift apart, e.g. when a license is edited by hand in the
 -- dashboard. Apply it once in the Supabase SQL editor, after 001_licenses.sql.

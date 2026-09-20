@@ -10,7 +10,7 @@ const MIN_PASSWORD = 8;
 const HEADINGS: Record<Exclude<Mode, "signin" | "signup">, { title: string; text: string }> = {
   forgot: { title: "Reset your password", text: "Enter your email and we’ll send you a link to choose a new password." },
   link: { title: "Sign in with an email link", text: "We’ll email you a one-time link — no password needed." },
-  recovery: { title: "Choose a new password", text: "Pick a new password for your Syntra account." },
+  recovery: { title: "Choose a new password", text: "Pick a new password for your Velyro account." },
 };
 const SUBMIT: Record<Mode, string> = {
   signin: "Sign in",

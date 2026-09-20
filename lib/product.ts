@@ -1,5 +1,5 @@
 export const product = {
- name: 'Syntra Optimizer',
+ name: 'Velyro Optimizer',
  premiumPrice: 15,
  // Set to the release URL when the Windows installer is available.
  downloadUrl: '',

@@ -123,9 +123,9 @@ export default function LoginPage() {
   }
 
   const meta = user?.user_metadata || {};
-  const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
+  const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Velyro Member");
   const avatarUrl = getAvatarUrl(user);
-  const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
+  const userInitial = displayName.trim().charAt(0).toUpperCase() || "V";
 
   return (
     <>
@@ -134,9 +134,9 @@ export default function LoginPage() {
 
         {/* ── Navigation identique à la homepage ── */}
         <header className={scrolled ? "navigation scrolled" : "navigation"}>
-          <a href="/" className="brand" aria-label="Syntra Optimizer home">
+          <a href="/" className="brand" aria-label="Velyro Optimizer home">
             <img src="/assets/syntra-logo.png" width="30" height="30" alt="" />
-            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
+            <span>Velyro<span className="brand-sub"> Optimizer</span></span>
           </a>
 
           <nav aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
@@ -165,7 +165,7 @@ export default function LoginPage() {
               className="button primary compact"
               onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
-              Get Syntra <ArrowUpRight size={14} />
+              Get Velyro <ArrowUpRight size={14} />
             </button>
             <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
               {menu ? <X /> : <Menu />}
@@ -188,7 +188,7 @@ export default function LoginPage() {
                 Made personal.
               </h1>
               <p style={{ fontSize: 15, color: "var(--muted-foreground)", lineHeight: 1.7, marginBottom: 36, maxWidth: 420 }}>
-                Connect your account to activate your <strong>Free</strong> or <strong>Premium</strong> license in the Syntra Optimizer desktop app on your PC.
+                Connect your account to activate your <strong>Free</strong> or <strong>Premium</strong> license in the Velyro Optimizer desktop app on your PC.
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
                 {[
@@ -231,7 +231,7 @@ export default function LoginPage() {
                         <span className="plan-status-eyebrow">YOUR PLAN</span>
                         <div className="plan-status-title">
                           <span className={`plan-badge ${plan === "Premium" ? "plan-badge-premium" : "plan-badge-free"}`}>
-                            {plan === "Premium" ? <><Sparkles size={11} /> Syntra Premium</> : <><ShieldCheck size={11} /> Syntra Free</>}
+                            {plan === "Premium" ? <><Sparkles size={11} /> Velyro Premium</> : <><ShieldCheck size={11} /> Velyro Free</>}
                           </span>
                         </div>
                       </div>
@@ -281,7 +281,7 @@ export default function LoginPage() {
                 <div>
                   <div style={{ marginBottom: 24 }}>
                     <img src="/assets/syntra-logo.png" width={40} height={40} alt="" style={{ borderRadius: 10, marginBottom: 12 }} />
-                    <h2 style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.6px", margin: "0 0 6px" }}>Connect to Syntra</h2>
+                    <h2 style={{ fontSize: 22, fontWeight: 500, letterSpacing: "-0.6px", margin: "0 0 6px" }}>Connect to Velyro</h2>
                     <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: 0 }}>Sign in or create your account.</p>
                   </div>
 
@@ -320,9 +320,9 @@ export default function LoginPage() {
         <footer>
           <a href="/" className="brand">
             <img src="/assets/syntra-logo.png" width={26} height={26} alt="" />
-            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
+            <span>Velyro<span className="brand-sub"> Optimizer</span></span>
           </a>
-          <span>© {new Date().getFullYear()} Syntra Optimizer</span>
+          <span>© {new Date().getFullYear()} Velyro Optimizer</span>
           <a href="#top">Back to top ↑</a>
         </footer>
       </div>

@@ -133,18 +133,18 @@ export default function Account({
   }
 
   const meta = user?.user_metadata || {};
-  const displayName = String(meta.full_name || meta.name || user?.email?.split('@')[0] || 'Syntra Member');
+  const displayName = String(meta.full_name || meta.name || user?.email?.split('@')[0] || 'Velyro Member');
   const avatarUrl = getAvatarUrl(user);
-  const initial = displayName.trim().charAt(0).toUpperCase() || 'S';
+  const initial = displayName.trim().charAt(0).toUpperCase() || 'V';
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="download-dialog account-dialog">
         <div className="account-dialog-header">
-          <img src="/assets/syntra-logo.png" width="44" height="44" alt="Syntra" />
+          <img src="/assets/syntra-logo.png" width="44" height="44" alt="Velyro" />
           <div>
             <DialogTitle className="dialog-title">
-              {user ? 'Your Syntra Account' : 'Connect to Syntra'}
+              {user ? 'Your Velyro Account' : 'Connect to Velyro'}
             </DialogTitle>
             <DialogDescription>
               {user
@@ -194,12 +194,12 @@ export default function Account({
                     {plan === 'Premium' ? (
                       <>
                         <Sparkles size={16} className="text-amber-400" />
-                        <span className="plan-badge plan-badge-premium">Syntra Premium</span>
+                        <span className="plan-badge plan-badge-premium">Velyro Premium</span>
                       </>
                     ) : (
                       <>
                         <ShieldCheck size={16} />
-                        <span className="plan-badge plan-badge-free">Syntra Free</span>
+                        <span className="plan-badge plan-badge-free">Velyro Free</span>
                       </>
                     )}
                   </div>

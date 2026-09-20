@@ -105,9 +105,9 @@ export default function AccountPage() {
   }, [loading, user, plan, sb]);
 
   const meta = user?.user_metadata || {};
-  const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Syntra Member");
+  const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Velyro Member");
   const avatarUrl = getAvatarUrl(user);
-  const userInitial = displayName.trim().charAt(0).toUpperCase() || "S";
+  const userInitial = displayName.trim().charAt(0).toUpperCase() || "V";
   const provider = user?.app_metadata?.provider
     ? user.app_metadata.provider.charAt(0).toUpperCase() + user.app_metadata.provider.slice(1)
     : "Social Account";
@@ -119,9 +119,9 @@ export default function AccountPage() {
 
         {/* ── Navigation identique à la homepage ── */}
         <header className={scrolled ? "navigation scrolled" : "navigation"}>
-          <a href="/" className="brand" aria-label="Syntra Optimizer home">
+          <a href="/" className="brand" aria-label="Velyro Optimizer home">
             <img src="/assets/syntra-logo.png" width="30" height="30" alt="" />
-            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
+            <span>Velyro<span className="brand-sub"> Optimizer</span></span>
           </a>
 
           <nav aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
@@ -152,7 +152,7 @@ export default function AccountPage() {
               className="button primary compact"
               onClick={() => { if (product.downloadUrl) window.location.assign(product.downloadUrl); }}
             >
-              Get Syntra <ArrowUpRight size={14} />
+              Get Velyro <ArrowUpRight size={14} />
             </button>
             <button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle navigation" aria-expanded={menu}>
               {menu ? <X /> : <Menu />}
@@ -191,7 +191,7 @@ export default function AccountPage() {
                     Welcome back, <span style={{ color: "var(--blue)" }}>{displayName.split(" ")[0]}</span>.
                   </h1>
                   <p style={{ fontSize: 15, color: "var(--muted-foreground)", margin: 0 }}>
-                    Manage your Syntra Optimizer license and connected desktop devices.
+                    Manage your Velyro Optimizer license and connected desktop devices.
                   </p>
                 </div>
 
@@ -248,8 +248,8 @@ export default function AccountPage() {
                         <p className="small-note" style={{ marginBottom: 6 }}>MEMBERSHIP</p>
                         <h3 style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           {plan === "Premium"
-                            ? <><Sparkles size={18} style={{ color: "#f59e0b" }} />Syntra Premium</>
-                            : <><ShieldCheck size={18} style={{ color: "var(--blue)" }} />Syntra Free</>}
+                            ? <><Sparkles size={18} style={{ color: "#f59e0b" }} />Velyro Premium</>
+                            : <><ShieldCheck size={18} style={{ color: "var(--blue)" }} />Velyro Free</>}
                         </h3>
                       </div>
                       {plan === "Premium" && <span><Sparkles size={10} /> ACTIVE</span>}
@@ -257,7 +257,7 @@ export default function AccountPage() {
 
                     <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 8, marginBottom: 18 }}>
                       {plan === "Premium"
-                        ? "You have full access to all Syntra desktop features and VIP profile tuning."
+                        ? "You have full access to all Velyro desktop features and VIP profile tuning."
                         : "You're on the Free plan. Upgrade to unlock Gaming mode and advanced Windows tweaks."}
                     </p>
 
@@ -315,7 +315,7 @@ export default function AccountPage() {
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
                     {[
-                      { step: "01", title: "Download the App", desc: "Install Syntra Optimizer for Windows on your computer." },
+                      { step: "01", title: "Download the App", desc: "Install Velyro Optimizer for Windows on your computer." },
                       { step: "02", title: `Sign in with ${provider}`, desc: `In the desktop sign-in screen, choose ${provider}.` },
                       { step: "03", title: "Instant Activation", desc: `Your ${plan} tier and profile are immediately recognized on your PC.` },
                     ].map(({ step, title, desc }) => (
@@ -335,9 +335,9 @@ export default function AccountPage() {
         <footer>
           <a href="/" className="brand">
             <img src="/assets/syntra-logo.png" width={26} height={26} alt="" />
-            <span>Syntra<span className="brand-sub"> Optimizer</span></span>
+            <span>Velyro<span className="brand-sub"> Optimizer</span></span>
           </a>
-          <span>© {new Date().getFullYear()} Syntra Optimizer</span>
+          <span>© {new Date().getFullYear()} Velyro Optimizer</span>
           <a href="#top">Back to top ↑</a>
         </footer>
       </div>

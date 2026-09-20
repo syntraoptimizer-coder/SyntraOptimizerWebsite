@@ -1,6 +1,6 @@
-# Syntra Optimizer
+# Velyro Optimizer
 
-React 19 + TypeScript + Vinext/Vite. English marketing website inspired by the supplied Cloudlight reference. The supplied Syntra logo is used unchanged. Responsive layout, light/dark theme, interactive demo, profiles, comparisons, FAQ, Free and Premium pricing.
+React 19 + TypeScript + Vinext/Vite. English marketing website inspired by the supplied Cloudlight reference. The supplied logo is used unchanged. Responsive layout, light/dark theme, interactive demo, profiles, comparisons, FAQ, Free and Premium pricing.
 
 ## Local development
 

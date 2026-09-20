@@ -1,4 +1,4 @@
-// Registers the Syntra webhook endpoint in Stripe and prints its signing secret.
+// Registers the Velyro webhook endpoint in Stripe and prints its signing secret.
 //
 //   node scripts/stripe-webhook.mjs https://your-domain.com
 //
@@ -35,7 +35,7 @@ if (already) {
 
 const endpoint = await stripe.webhookEndpoints.create({
   url,
-  description: "Syntra Optimizer — grants Premium after payment",
+  description: "Velyro Optimizer — grants Premium after payment",
   enabled_events: [
     "checkout.session.completed",
     "checkout.session.async_payment_succeeded",

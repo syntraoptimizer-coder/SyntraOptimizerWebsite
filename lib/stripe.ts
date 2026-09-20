@@ -30,7 +30,7 @@ function premiumLineItem(origin: string) {
       currency: "usd",
       unit_amount: 1500,
       product_data: {
-        name: "Syntra Optimizer Premium",
+        name: "Velyro Optimizer Premium",
         description: "One-time license — Performance Mode, the BIOS optimizer and every future Premium feature.",
         // Stripe only fetches product images over public HTTPS.
         ...(origin.startsWith("https://") ? { images: [`${origin}/assets/syntra-logo.png`] } : {}),
@@ -40,7 +40,7 @@ function premiumLineItem(origin: string) {
 }
 
 /**
- * Premium is a one-time payment ($15). The Checkout Session is tied to the signed-in Syntra account through
+ * Premium is a one-time payment ($15). The Checkout Session is tied to the signed-in Velyro account through
  * `client_reference_id` and metadata: the webhook uses that to know WHICH account to upgrade after payment.
  */
 export function createPremiumCheckoutSession(

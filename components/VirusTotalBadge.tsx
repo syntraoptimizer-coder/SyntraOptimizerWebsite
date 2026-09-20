@@ -5,7 +5,7 @@ import { ArrowUpRight, ShieldCheck } from "lucide-react";
  * publishing a new installer, upload it to VirusTotal and update the four constants below.
  */
 const SCAN = {
-  fileName: "Syntra Optimizer Setup 1.0.0.exe",
+  fileName: "Velyro Optimizer Setup 1.0.0.exe",
   sha256: "95833c3113c435318be5e3aca015411179bcfa4b255a1f79ff0bceca54db2708",
   flagged: 0,
   vendors: 66,

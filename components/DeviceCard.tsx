@@ -66,7 +66,7 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
         <div>
           <h3 style={{ fontSize: 16, fontWeight: 550, margin: 0 }}>Linked PC</h3>
           <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "2px 0 0" }}>
-            Your license works on one PC at a time, linked to its hardware ID (HWID).
+            Your license is tied to one PC, identified by its hardware ID (HWID).
           </p>
         </div>
       </div>
@@ -118,8 +118,8 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
 
       <p className="small-note" style={{ margin: 0 }}>
         {status?.bound
-          ? `Linked to ${user.email ?? "your account"}. Changing PC isn't self-service — contact support if you've replaced your computer.`
-          : "Sign in from the Velyro Optimizer app on the PC you want to use, and it will be linked automatically."}
+          ? `Linked to ${user.email ?? "your account"}. This link is permanent: if you change PC, a new license has to be purchased.`
+          : "Sign in from the Velyro Optimizer app on the PC you want to use. That PC will be linked permanently, so make sure it's the one you'll keep using."}
       </p>
     </div>
   );

@@ -127,7 +127,7 @@ export default function TermsPage() {
                 </p>
                 <ul style={{ paddingLeft: 20, margin: 0 }}>
                   <li style={{ marginBottom: 8 }}>
-                    <strong>Device Limit:</strong> Each account license (Free or Premium) is assigned to <strong>one (1) PC at a time</strong>. You may transfer your license to a new PC through your web account dashboard at any time.
+                    <strong>Device Limit:</strong> Each account license (Free or Premium) is permanently assigned to the <strong>first PC</strong> that signs in with it, identified by that computer&apos;s hardware ID. The assignment cannot be transferred: using Velyro Optimizer on a different PC requires purchasing a new license. Your account dashboard shows which PC your license is currently bound to.
                   </li>
                   <li style={{ marginBottom: 8 }}>
                     <strong>Restrictions:</strong> You may not reverse engineer, decompile, disassemble, modify, rent, sublicense, or redistribute the binary installer or its proprietary optimization algorithms without prior written consent.

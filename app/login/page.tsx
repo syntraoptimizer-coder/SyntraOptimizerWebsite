@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from "@/lib/supabase";
+import { useTheme } from "@/lib/theme";
 import EmailPasswordForm from "@/components/EmailPasswordForm";
 import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
@@ -51,7 +52,7 @@ function GithubIcon() {
 }
 
 export default function LoginPage() {
-  const [light, setLight] = useState(true);
+  const [light, setLight] = useTheme();
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [recovering, setRecovering] = useState(false);
@@ -63,12 +64,6 @@ export default function LoginPage() {
 
   const sb = getSupabase();
 
-  useEffect(() => { try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {} }, []);
-  useEffect(() => {
-    if (light) delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = "dark";
-    try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
-  }, [light]);
   useEffect(() => {
     const onScroll = () => { const y = window.scrollY; setScrolled(y > 28); };
     onScroll();

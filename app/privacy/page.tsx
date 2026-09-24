@@ -4,9 +4,10 @@ import type { User } from "@supabase/supabase-js";
 import { Shield, ChevronDown, Moon, Sun, Menu, X, ArrowUpRight } from "lucide-react";
 import { getAvatarUrl } from "@/lib/avatar";
 import { getSupabase } from "@/lib/supabase";
+import { useTheme } from "@/lib/theme";
 
 export default function PrivacyPage() {
-  const [light, setLight] = useState(true);
+  const [light, setLight] = useTheme();
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -14,16 +15,6 @@ export default function PrivacyPage() {
   const [avatarErr, setAvatarErr] = useState(false);
 
   const sb = getSupabase();
-
-  useEffect(() => {
-    try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {}
-  }, []);
-
-  useEffect(() => {
-    if (light) delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = "dark";
-    try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
-  }, [light]);
 
   useEffect(() => {
     const onScroll = () => { setScrolled(window.scrollY > 28); };
@@ -193,7 +184,7 @@ export default function PrivacyPage() {
                   5. Your Rights (GDPR & CCPA)
                 </h2>
                 <p style={{ margin: "0 0 12px" }}>
-                  Regardless of your location, you have the right to access, rectify, or completely delete your personal data. You may delete your account and unlink all devices directly from your Account dashboard or by writing to our privacy team.
+                  Regardless of your location, you have the right to access, rectify, or completely delete your personal data. You may review your account and the PC linked to it from your Account dashboard, and delete your account or unlink a device by writing to our privacy team.
                 </p>
                 <p style={{ margin: 0 }}>
                   Upon receiving a verified account deletion request, all personal identifiers, machine IDs, and license tokens associated with your account are permanently erased within 30 days.

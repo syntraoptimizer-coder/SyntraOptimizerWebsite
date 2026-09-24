@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/compone
 import DarkVeil from "@/components/DarkVeil";
 import GradualBlur from "@/components/GradualBlur";
 import { useLenis, scrollToTarget } from "@/components/SmoothScroll";
+import { useTheme } from "@/lib/theme";
 function Brand(){return <a href="#top" className="brand" aria-label="Velyro Optimizer home"><img src="/assets/syntra-logo.png" width="32" height="32" alt=""/><span>Velyro<span className="brand-sub"> Optimizer</span></span></a>}
 function Tag({children}:{children:React.ReactNode}){return <span className="eyebrow">{children}<ChevronRight size={14}/></span>}
 function AppPreview(){
@@ -22,7 +23,7 @@ import { getSupabase } from "@/lib/supabase";
 import type { User } from "@supabase/supabase-js";
 
 export default function Home(){
- const [light,setLight]=useState(true);const [menu,setMenu]=useState(false);const [download,setDownload]=useState(false);const [account,setAccount]=useState(false);const [scrolled,setScrolled]=useState(false);
+ const [light,setLight]=useTheme();const [menu,setMenu]=useState(false);const [download,setDownload]=useState(false);const [account,setAccount]=useState(false);const [scrolled,setScrolled]=useState(false);
  const lenis=useLenis();
  const [user,setUser]=useState<User|null>(null);const [plan,setPlan]=useState<'Free'|'Premium'>('Free');
 
@@ -66,8 +67,6 @@ export default function Home(){
    return ()=>sub.subscription.unsubscribe();
  },[]);
 
- useEffect(()=>{try{setLight(localStorage.getItem('syntra-theme')!=='dark')}catch{}},[]);
- useEffect(()=>{if(light)delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme='dark';try{localStorage.setItem('syntra-theme',light?'light':'dark')}catch{}},[light]);
  useEffect(()=>{const onScroll=()=>{const y=window.scrollY;setScrolled(prev=>y>28?true:y<10?false:prev)};onScroll();window.addEventListener('scroll',onScroll,{passive:true});return()=>window.removeEventListener('scroll',onScroll)},[]);
  useEffect(()=>{const els=document.querySelectorAll<HTMLElement>('.reveal');if(!els.length)return;const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in-view');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});els.forEach(el=>io.observe(el));return()=>io.disconnect()},[]);
 

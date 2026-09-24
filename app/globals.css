@@ -370,3 +370,49 @@ html[data-motion=calm] .scroll-stack-card{transform:none!important;filter:none!i
     transform: translateX(100%);
   }
 }
+
+/* ── Linked PC card ─────────────────────────────────────────────────────── */
+.device-emblem {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+}
+.device-hwid {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.device-hwid code {
+  font-family: GeistMono, monospace;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  word-break: break-all;
+  color: var(--foreground);
+}
+.device-hwid-action {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted-foreground);
+  transition:
+    color 0.2s,
+    background 0.2s,
+    border-color 0.2s;
+}
+.device-hwid-action:hover {
+  color: var(--foreground);
+  background: var(--secondary);
+  border-color: var(--border);
+}

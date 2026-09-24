@@ -4,9 +4,10 @@ import type { User } from "@supabase/supabase-js";
 import { FileText, ChevronDown, Moon, Sun, Menu, X, ArrowUpRight } from "lucide-react";
 import { getAvatarUrl } from "@/lib/avatar";
 import { getSupabase } from "@/lib/supabase";
+import { useTheme } from "@/lib/theme";
 
 export default function TermsPage() {
-  const [light, setLight] = useState(true);
+  const [light, setLight] = useTheme();
   const [menu, setMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<User | null>(null);
@@ -14,16 +15,6 @@ export default function TermsPage() {
   const [avatarErr, setAvatarErr] = useState(false);
 
   const sb = getSupabase();
-
-  useEffect(() => {
-    try { setLight(localStorage.getItem("syntra-theme") !== "dark"); } catch {}
-  }, []);
-
-  useEffect(() => {
-    if (light) delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = "dark";
-    try { localStorage.setItem("syntra-theme", light ? "light" : "dark"); } catch {}
-  }, [light]);
 
   useEffect(() => {
     const onScroll = () => { setScrolled(window.scrollY > 28); };

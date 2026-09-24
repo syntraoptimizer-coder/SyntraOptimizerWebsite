@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
 import SmoothScroll from "@/components/SmoothScroll";
+import { THEME_BOOT_SCRIPT } from "@/lib/theme";
 
 export const metadata: Metadata = {
   title: "Velyro Optimizer — Your PC, unleashed.",
@@ -11,7 +12,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-motion="full">
+    <html lang="en" data-theme="dark" data-motion="full">
+      <head>
+        {/* Applies the saved theme before the first paint. Without it the served HTML always carries
+            the default and anyone on the other theme gets a flash on every navigation. */}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
+      </head>
       <body>
         <SmoothScroll>
           {children}

@@ -32,8 +32,14 @@ const ANCHOR_OFFSET = -100;
  * Flip this to true if you would rather follow the OS: smooth scrolling is a known vestibular trigger,
  * and everything on the site keeps working without it — Lenis scrolls the document for real, so the
  * scroll listeners and IntersectionObservers fire the same either way.
+ *
+ * It governs the CSS animations too: when it is on and the OS asks for reduced motion, <html> gets
+ * data-motion="calm" and globals.css collapses every animation to a single frame.
  */
 const RESPECT_REDUCED_MOTION = false;
+
+const wantsCalm = () =>
+  RESPECT_REDUCED_MOTION && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches === true;
 
 /** Anchor navigation that works with or without Lenis, for the few places that scroll on click. */
 export function scrollToTarget(lenis: Lenis | null, target: HTMLElement | string) {
@@ -50,8 +56,11 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   const firstRender = useRef(true);
 
   useEffect(() => {
-    if (RESPECT_REDUCED_MOTION && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches)
+    if (wantsCalm()) {
+      // layout.tsx renders data-motion="full", so nothing animates before this point either way.
+      document.documentElement.setAttribute("data-motion", "calm");
       return;
+    }
 
     const instance = new Lenis({
       duration: 1.2,

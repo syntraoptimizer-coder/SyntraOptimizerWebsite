@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
+import CopyGuard from "@/components/CopyGuard";
 import SmoothScroll from "@/components/SmoothScroll";
 import { THEME_BOOT_SCRIPT } from "@/lib/theme";
 
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SmoothScroll>
           {children}
           <CookieConsent />
+          <CopyGuard />
         </SmoothScroll>
       </body>
     </html>

@@ -416,3 +416,22 @@ html[data-motion=calm] .scroll-stack-card{transform:none!important;filter:none!i
   background: var(--secondary);
   border-color: var(--border);
 }
+
+/* ── Copy protection ────────────────────────────────────────────────────
+   Pairs with components/CopyGuard.tsx: the JS blocks the copy/cut/context-menu events, this stops the
+   selection being made in the first place. Form fields are exempt, or sign-in becomes unusable. */
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+img,
+a {
+  -webkit-user-drag: none;
+}

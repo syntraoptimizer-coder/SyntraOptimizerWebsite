@@ -1,6 +1,7 @@
 "use client";
 import { useLayoutEffect, useRef, useCallback, type ReactNode } from "react";
 import Lenis from "lenis";
+import { useLenis } from "./SmoothScroll";
 import "./ScrollStack.css";
 
 export const ScrollStackItem = ({ children, itemClassName = "" }: { children: ReactNode; itemClassName?: string }) => (
@@ -37,6 +38,7 @@ const ScrollStack = ({
   useWindowScroll?: boolean;
   onStackComplete?: () => void;
 }) => {
+  const siteLenis = useLenis();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const stackCompletedRef = useRef(false);
   const animationFrameRef = useRef<number | null>(null);
@@ -199,60 +201,52 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075,
-        anchors: true
-      });
-
-      lenis.on("scroll", handleScroll);
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
-    } else {
-      const scroller = scrollerRef.current;
-      if (!scroller) return;
-
-      const lenis = new Lenis({
-        wrapper: scroller,
-        content: scroller.querySelector(".scroll-stack-inner") as HTMLElement,
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        gestureOrientation: "vertical",
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075
-      });
-
-      lenis.on("scroll", handleScroll);
-
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
+      // The window is already driven by the site-wide Lenis in components/SmoothScroll.tsx, so here we
+      // only subscribe to it. Creating a second instance on the same scroller made the two fight over
+      // scrollTop. With reduced motion there is no instance at all and we listen to native scroll.
+      if (siteLenis) {
+        siteLenis.on("scroll", handleScroll);
+        return () => siteLenis.off("scroll", handleScroll);
+      }
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, [handleScroll, useWindowScroll]);
+
+    // Own scroller: the site-wide instance drives the window, not this container, so this branch
+    // still needs an instance of its own.
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const lenis = new Lenis({
+      wrapper: scroller,
+      content: scroller.querySelector(".scroll-stack-inner") as HTMLElement,
+      duration: 1.2,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 2,
+      infinite: false,
+      gestureOrientation: "vertical",
+      wheelMultiplier: 1,
+      lerp: 0.1,
+      syncTouch: true,
+      syncTouchLerp: 0.075
+    });
+
+    lenis.on("scroll", handleScroll);
+
+    const raf = (time: number) => {
+      lenis.raf(time);
+      animationFrameRef.current = requestAnimationFrame(raf);
+    };
+    animationFrameRef.current = requestAnimationFrame(raf);
+
+    lenisRef.current = lenis;
+    return () => {
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, [handleScroll, useWindowScroll, siteLenis]);
 
   useLayoutEffect(() => {
     const scroller = scrollerRef.current;
@@ -278,17 +272,12 @@ const ScrollStack = ({
       card.style.perspective = "1000px";
     });
 
-    setupLenis();
+    const detach = setupLenis();
 
     updateCardTransforms();
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-      }
+      detach?.();
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();

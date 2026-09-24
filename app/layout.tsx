@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import CookieConsent from "@/components/CookieConsent";
+import SmoothScroll from "@/components/SmoothScroll";
 
 export const metadata: Metadata = {
   title: "Velyro Optimizer — Your PC, unleashed.",
@@ -12,8 +13,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body>
-        {children}
-        <CookieConsent />
+        <SmoothScroll>
+          {children}
+          <CookieConsent />
+        </SmoothScroll>
       </body>
     </html>
   );

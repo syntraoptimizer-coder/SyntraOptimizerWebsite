@@ -406,6 +406,7 @@ export default function TwoFactorCard({
           </div>
           <button
             type="button"
+            className="settings-factor-choice"
             style={choice}
             onClick={() => void sendEmailCode(true)}
             disabled={busy}
@@ -421,7 +422,7 @@ export default function TwoFactorCard({
             </span>
             {busy && <Loader2 size={14} className="spin" />}
           </button>
-          <button type="button" style={choice} onClick={startTotp} disabled={busy}>
+          <button type="button" className="settings-factor-choice" style={choice} onClick={startTotp} disabled={busy}>
             <Smartphone size={18} style={{ color: "var(--blue)", flexShrink: 0 }} />
             <span style={{ flex: 1 }}>
               <strong style={{ display: "block", fontWeight: 550 }}>
@@ -446,7 +447,7 @@ export default function TwoFactorCard({
           <div style={{ display: "flex", gap: 10 }}>
             <button
               type="button"
-              className="button"
+              className="button primary"
               style={{ flex: 1 }}
               onClick={() => void confirmEmailCode(view.data.next)}
               disabled={busy || !isEmailOtp(code)}
@@ -517,7 +518,7 @@ export default function TwoFactorCard({
           <div style={{ display: "flex", gap: 10 }}>
             <button
               type="button"
-              className="button"
+              className="button primary"
               style={{ flex: 1 }}
               onClick={() => void confirmTotp(view.data.factorId)}
               disabled={busy || !isTotp(code)}

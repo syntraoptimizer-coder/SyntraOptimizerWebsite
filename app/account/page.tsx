@@ -2,16 +2,14 @@
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
-  ArrowRight, Check, Laptop, LogOut, Moon, ShieldCheck,
-  Sparkles, Sun, ChevronRight, ChevronDown, Loader2, Menu, X, ArrowUpRight,
+  ArrowRight, Moon, ShieldCheck, Sun, ChevronDown, Loader2, Menu, X, ArrowUpRight,
 } from "lucide-react";
 import { getAvatarUrl } from '@/lib/avatar';
 import { getSupabase } from "@/lib/supabase";
 import { useTheme } from "@/lib/theme";
-import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
-import DeviceCard from "@/components/DeviceCard";
-import TwoFactorCard from "@/components/TwoFactorCard";
+import AccountSettings from "@/components/AccountSettings";
+import "./settings.css";
 
 export default function AccountPage() {
   const [light, setLight] = useTheme();
@@ -23,6 +21,7 @@ export default function AccountPage() {
   const [avatarErr, setAvatarErr] = useState(false);
   const [stripeLoading, setStripeLoading] = useState(false);
   const [activating, setActivating] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
 
   const sb = getSupabase();
 
@@ -57,10 +56,11 @@ export default function AccountPage() {
   }, [sb]);
 
   async function handleUpgrade() {
+    setCheckoutError("");
     setStripeLoading(true);
     const problem = await startCheckout();
     if (problem) {
-      alert(problem);
+      setCheckoutError(problem);
       setStripeLoading(false);
     }
   }
@@ -104,9 +104,6 @@ export default function AccountPage() {
   const displayName = String(meta.full_name || meta.name || user?.email?.split("@")[0] || "Velyro Member");
   const avatarUrl = getAvatarUrl(user);
   const userInitial = displayName.trim().charAt(0).toUpperCase() || "V";
-  const provider = user?.app_metadata?.provider
-    ? user.app_metadata.provider.charAt(0).toUpperCase() + user.app_metadata.provider.slice(1)
-    : "Social Account";
 
   return (
     <>
@@ -156,178 +153,14 @@ export default function AccountPage() {
           </div>
         </header>
 
-        {/* ── Main ── */}
-        <main id="main" style={{ flex: 1, padding: "56px 20px 100px" }}>
-          <div style={{ maxWidth: 1040, margin: "0 auto" }}>
-
-            {loading ? (
-              <div style={{ textAlign: "center", padding: "100px 20px" }}>
-                <Loader2 size={28} className="spin" style={{ color: "var(--blue)", margin: "0 auto 14px", display: "block" }} />
-                <p style={{ color: "var(--muted-foreground)", fontSize: 15 }}>Loading your account…</p>
-              </div>
-            ) : !user ? (
-              <div style={{ textAlign: "center", padding: "60px 20px", maxWidth: 480, margin: "40px auto" }} className="price-card">
-                <img src="/assets/syntra-logo.png" width={52} height={52} alt="" style={{ borderRadius: 12, marginBottom: 18 }} />
-                <h2 style={{ fontSize: 24, fontWeight: 500, letterSpacing: "-0.7px", margin: "0 0 10px" }}>You&apos;re not signed in</h2>
-                <p style={{ fontSize: 14, color: "var(--muted-foreground)", margin: "0 0 28px" }}>
-                  Connect your account via Google, Discord, Microsoft, or GitHub to manage your license and sync settings.
-                </p>
-                <a href="/login" className="button primary" style={{ fontSize: 14 }}>
-                  Go to Sign In <ArrowRight size={15} />
-                </a>
-              </div>
-            ) : (
-              <div>
-                {/* Page header */}
-                <div style={{ marginBottom: 40 }}>
-                  <span className="eyebrow">
-                    <ChevronRight size={13} /> ACCOUNT OVERVIEW
-                  </span>
-                  <h1 style={{ fontSize: "clamp(30px, 3.8vw, 48px)", lineHeight: 1.08, letterSpacing: "-1.8px", fontWeight: 460, margin: "16px 0 8px" }}>
-                    Welcome back, <span style={{ color: "var(--blue)" }}>{displayName.split(" ")[0]}</span>.
-                  </h1>
-                  <p style={{ fontSize: 15, color: "var(--muted-foreground)", margin: 0 }}>
-                    Manage your Velyro Optimizer license and connected desktop devices.
-                  </p>
-                </div>
-
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24, marginBottom: 24 }}>
-                  {/* Profile Card */}
-                  <div className="price-card">
-                    <p className="small-note" style={{ marginBottom: 14 }}>YOUR PROFILE</p>
-                    <div className="account-user-card" style={{ marginBottom: 20 }}>
-                      <div className="account-avatar-wrapper" style={{ width: 54, height: 54 }}>
-                        {avatarUrl && !avatarErr
-                          ? <img src={avatarUrl} alt={displayName} className="account-avatar-img" referrerPolicy="no-referrer" onError={() => setAvatarErr(true)} />
-                          : <span className="account-avatar-initials" style={{ fontSize: 22 }}>{userInitial}</span>}
-                      </div>
-                      <div className="account-user-info">
-                        <h4 style={{ fontSize: 16 }}>{displayName}</h4>
-                        <p>{user.email}</p>
-                        <div className="account-linked-providers">
-                          <span>via</span>
-                          <strong>{provider}</strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="price-divider" />
-                    <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
-                      <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <span style={{ color: "var(--muted-foreground)" }}>Account ID</span>
-                        <span style={{ fontFamily: "monospace", fontSize: 11, color: "var(--muted-foreground)" }}>{user.id.slice(0, 16)}…</span>
-                      </div>
-                      <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <span style={{ color: "var(--muted-foreground)" }}>Authentication</span>
-                        <strong>{provider}</strong>
-                      </div>
-                      <div style={{ display: "flex", justifyContent: "space-between" }}>
-                        <span style={{ color: "var(--muted-foreground)" }}>Sync Status</span>
-                        <span style={{ color: "var(--blue)", fontWeight: 550 }}>● Active</span>
-                      </div>
-                    </div>
-
-                    <div className="price-divider" />
-                    <button
-                      className="button"
-                      style={{ width: "100%", fontSize: 13 }}
-                      onClick={async () => { await sb!.auth.signOut(); window.location.href = "/login"; }}
-                    >
-                      <LogOut size={14} /> Sign out
-                    </button>
-                  </div>
-
-                  {/* Plan Card */}
-                  <div className={`price-card ${plan === "Premium" ? "premium" : ""}`}>
-                    <div className="price-title">
-                      <div>
-                        <p className="small-note" style={{ marginBottom: 6 }}>MEMBERSHIP</p>
-                        <h3 style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          {plan === "Premium"
-                            ? <><Sparkles size={18} style={{ color: "#f59e0b" }} />Velyro Premium</>
-                            : <><ShieldCheck size={18} style={{ color: "var(--blue)" }} />Velyro Free</>}
-                        </h3>
-                      </div>
-                      {plan === "Premium" && <span><Sparkles size={10} /> ACTIVE</span>}
-                    </div>
-
-                    <p style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 8, marginBottom: 18 }}>
-                      {plan === "Premium"
-                        ? "You have full access to all Velyro desktop features and VIP profile tuning."
-                        : "You're on the Free plan. Upgrade to unlock Gaming mode and advanced Windows tweaks."}
-                    </p>
-
-                    <ul>
-                      {plan === "Premium" ? (
-                        <>
-                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>All performance profiles</strong> — Gaming, Creator & Balanced</li>
-                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Deep system cleanup</strong> — caches, telemetry & logs</li>
-                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>Restore point generator</strong> before applying tweaks</li>
-                          <li><Check size={13} style={{ color: "#f59e0b" }} /> <strong>One PC per account</strong> — transferable from your account page</li>
-                        </>
-                      ) : (
-                        <>
-                          <li><Check size={13} style={{ color: "var(--blue)" }} /> Basic system scan & cleanup</li>
-                          <li><Check size={13} style={{ color: "var(--blue)" }} /> Balanced everyday profile</li>
-                          <li style={{ color: "var(--muted-foreground)", opacity: 0.75 }}>✕ Gaming mode & low-latency tweaks</li>
-                          <li style={{ color: "var(--muted-foreground)", opacity: 0.75 }}>✕ Custom startup app management</li>
-                        </>
-                      )}
-                    </ul>
-
-                    {plan === "Free" && (
-                      <>
-                        <div className="price-divider" />
-                        <button
-                          className="button primary"
-                          style={{ width: "100%", fontSize: 13 }}
-                          onClick={handleUpgrade}
-                          disabled={stripeLoading || activating}
-                        >
-                          {stripeLoading
-                            ? <><Loader2 size={14} className="spin" /> Redirecting…</>
-                            : <><Sparkles size={14} /> Upgrade to Premium — $15 <ArrowRight size={13} /></>}
-                        </button>
-                        <p className="small-note" style={{ textAlign: "center", marginTop: 10 }}>
-                          {activating ? "Payment received — activating Premium on your account…" : "One-time payment · No subscription"}
-                        </p>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                <DeviceCard sb={sb!} user={user} />
-
-                <TwoFactorCard sb={sb!} user={user} />
-
-                {/* Desktop Sync Steps */}
-                <div className="price-card">
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
-                    <div style={{ width: 36, height: 36, borderRadius: 10, background: "var(--secondary)", border: "1px solid var(--border)", display: "grid", placeItems: "center", color: "var(--blue)" }}>
-                      <Laptop size={17} />
-                    </div>
-                    <div>
-                      <h3 style={{ fontSize: 16, fontWeight: 550, margin: 0 }}>Sync with Desktop App</h3>
-                      <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: "2px 0 0" }}>How your web account connects with the PC application</p>
-                    </div>
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-                    {[
-                      { step: "01", title: "Download the App", desc: "Install Velyro Optimizer for Windows on your computer." },
-                      { step: "02", title: `Sign in with ${provider}`, desc: `In the desktop sign-in screen, choose ${provider}.` },
-                      { step: "03", title: "Instant Activation", desc: `Your ${plan} tier and profile are immediately recognized on your PC.` },
-                    ].map(({ step, title, desc }) => (
-                      <div key={step} style={{ padding: "16px 18px", borderRadius: 12, background: "var(--secondary)", border: "1px solid var(--border)" }}>
-                        <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", color: "var(--blue)" }}>STEP {step}</span>
-                        <h4 style={{ fontSize: 14, fontWeight: 580, margin: "6px 0 4px" }}>{title}</h4>
-                        <p style={{ fontSize: 12, color: "var(--muted-foreground)", margin: 0 }}>{desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+        <main id="main" className="settings-main">
+          {loading ? (
+            <div className="settings-empty" role="status"><Loader2 size={26} className="spin" /><p>Loading your account…</p></div>
+          ) : !user ? (
+            <div className="settings-empty settings-card"><ShieldCheck size={32} /><h1>Your account, all in one place.</h1><p>Sign in to manage your profile, protect your account and find your Velyro license.</p><a href="/login" className="button primary">Sign in to your account <ArrowRight size={16} /></a></div>
+          ) : (
+            <AccountSettings sb={sb!} user={user} plan={plan} light={light} setLight={setLight} onUpgrade={handleUpgrade} upgrading={stripeLoading} activating={activating} checkoutError={checkoutError} />
+          )}
         </main>
 
         <footer>

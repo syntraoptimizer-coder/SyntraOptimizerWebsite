@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
-import { Check, Copy, Eye, EyeOff, Monitor } from "lucide-react";
+import { Check, Copy, Eye, EyeOff, Monitor, Loader2 } from "lucide-react";
 
 type Status = { bound: boolean; hwid: string | null; linked_at: string | null; last_seen: string | null };
 
@@ -28,17 +28,25 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
   const [status, setStatus] = useState<Status | null>(null);
   const [revealed, setRevealed] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let active = true;
     void (async () => {
-      const { data, error } = await sb.rpc("device_status");
-      if (active && !error) setStatus(data as Status);
+      try {
+        const { data, error } = await sb.rpc("device_status");
+        if (!active) return;
+        if (error || !data) setError("We couldn't load your linked PC. Please try again.");
+        else setStatus(data as Status);
+      } catch {
+        if (active) setError("We couldn't load your linked PC. Please try again.");
+      }
     })();
     return () => {
       active = false;
     };
-  }, [sb]);
+  }, [sb, attempt]);
 
   useEffect(() => {
     if (!copied) return;
@@ -71,7 +79,7 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
         </div>
       </div>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
+      {error ? <div className="settings-notice error" role="alert">{error}<button className="button" onClick={() => { setError(""); setAttempt((value) => value + 1); }}>Try again</button></div> : !status ? <div className="settings-device-loading" role="status"><Loader2 size={16} className="spin" /> Checking your linked PC…</div> : <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
         <div style={row}>
           <span style={label}>Status</span>
           <strong>{status ? (status.bound ? "PC linked" : "No PC linked yet") : "…"}</strong>
@@ -112,15 +120,15 @@ export default function DeviceCard({ sb, user }: { sb: SupabaseClient; user: Use
             </div>
           </>
         )}
-      </div>
+      </div>}
 
       <div className="price-divider" />
 
-      <p className="small-note" style={{ margin: 0 }}>
+      {status && <p className="small-note" style={{ margin: 0 }}>
         {status?.bound
           ? `Linked to ${user.email ?? "your account"}. This link is permanent: if you change PC, a new license has to be purchased.`
           : "Sign in from the Velyro Optimizer app on the PC you want to use. That PC will be linked permanently, so make sure it's the one you'll keep using."}
-      </p>
+      </p>}
     </div>
   );
 }

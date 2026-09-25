@@ -1,6 +1,7 @@
 "use client";
 import { useState, type FormEvent, type ReactNode } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { emailOtpError, isEmailOtp, isTotp, normalizeOtp } from "@/lib/otp";
 import { ArrowRight, CheckCircle2, CircleAlert, Eye, EyeOff, KeyRound, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
 
 type Mode = "signin" | "signup" | "forgot" | "link" | "recovery" | "2fa-email" | "2fa-totp" | "2fa-backup";
@@ -13,7 +14,7 @@ const HEADINGS: Record<Exclude<Mode, "signin" | "signup">, { title: string; text
   forgot: { title: "Reset your password", text: "Enter your email and we’ll send you a link to choose a new password." },
   link: { title: "Sign in with an email link", text: "We’ll email you a one-time link — no password needed." },
   recovery: { title: "Choose a new password", text: "Pick a new password for your Velyro account." },
-  "2fa-email": { title: "Check your email", text: "We sent a six-digit code to your address. Enter it to finish signing in." },
+  "2fa-email": { title: "Check your email", text: "Enter the full code from our latest email to finish signing in." },
   "2fa-totp": { title: "Two-factor authentication", text: "Enter the six-digit code from your authenticator app." },
   "2fa-backup": { title: "Use a recovery code", text: "Enter one of the codes you saved when you turned two-factor on. Each works once." },
 };
@@ -115,7 +116,12 @@ export default function EmailPasswordForm({
 
   async function submit(e: FormEvent) {
     e.preventDefault();
+    if (busy) return;
     setMessage(null);
+    if (mode === "2fa-email" && !isEmailOtp(otp))
+      return fail("Enter the full code from your email (6–10 digits).");
+    if (mode === "2fa-totp" && !isTotp(otp))
+      return fail("Enter the six-digit code from your authenticator app.");
     if ((mode === "signup" || mode === "recovery") && password.length < MIN_PASSWORD)
       return fail(`Use at least ${MIN_PASSWORD} characters for your password.`);
     if ((mode === "signup" || mode === "recovery") && password !== confirm)
@@ -151,7 +157,7 @@ export default function EmailPasswordForm({
         ok("Check your inbox for a secure sign-in link.");
       } else if (mode === "2fa-email") {
         const { error } = await sb.auth.verifyOtp({ email: email.trim(), token: otp, type: "email" });
-        if (error) { setOtp(""); return fail("That code didn't match. Check your inbox and try again."); }
+        if (error) { setOtp(""); return fail(emailOtpError(error)); }
         onDone?.();
       } else if (mode === "2fa-totp") {
         const { data: factors } = await sb.auth.mfa.listFactors();
@@ -170,6 +176,28 @@ export default function EmailPasswordForm({
         ok("Password updated. You’re signed in.");
         onDone?.();
       }
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function resendEmailCode() {
+    if (busy) return;
+    setBusy(true);
+    setMessage(null);
+    try {
+      const { error } = await sb.auth.signInWithOtp({
+        email: email.trim(), options: { shouldCreateUser: false },
+      });
+      if (error) {
+        return fail(error.status === 429
+          ? "A code was just sent. Wait a minute before asking again."
+          : "We couldn't send your sign-in code. Please try again.");
+      }
+      setOtp("");
+      ok("A new code was sent. Enter the full code from the latest email.");
+    } catch {
+      fail("We couldn't send your sign-in code. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -231,7 +259,7 @@ export default function EmailPasswordForm({
       {secondFactor && (
         <Field
           id="ep-otp"
-          label={mode === "2fa-backup" ? "Recovery code" : "Six-digit code"}
+          label={mode === "2fa-backup" ? "Recovery code" : mode === "2fa-email" ? "Email code" : "Six-digit code"}
           icon={mode === "2fa-backup" ? <KeyRound size={16} /> : <ShieldCheck size={16} />}
         >
           <input
@@ -240,9 +268,9 @@ export default function EmailPasswordForm({
             inputMode={mode === "2fa-backup" ? "text" : "numeric"}
             autoComplete="one-time-code"
             autoFocus
-            placeholder={mode === "2fa-backup" ? "xxxx-xxxx" : "000000"}
+            placeholder={mode === "2fa-backup" ? "xxxx-xxxx" : mode === "2fa-email" ? "Email code" : "000000"}
             value={otp}
-            onChange={(e) => setOtp(mode === "2fa-backup" ? e.target.value.slice(0, 32) : e.target.value.replace(/\D/g, "").slice(0, 6))}
+            onChange={(e) => setOtp(mode === "2fa-backup" ? e.target.value.slice(0, 32) : normalizeOtp(e.target.value))}
             required
           />
         </Field>
@@ -276,7 +304,7 @@ export default function EmailPasswordForm({
         </button>
       )}
       {mode === "2fa-email" && (
-        <button type="button" className="ep-alt" onClick={() => void requireSecondFactor(email.trim())} disabled={busy}>
+        <button type="button" className="ep-alt" onClick={() => void resendEmailCode()} disabled={busy}>
           Didn&apos;t get it? Send another code
         </button>
       )}

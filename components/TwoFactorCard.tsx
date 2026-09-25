@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState, type CSSProperties } from "react";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { emailOtpError, isEmailOtp, isTotp, normalizeOtp } from "@/lib/otp";
 import {
   Check,
   Copy,
@@ -168,6 +169,7 @@ export default function TwoFactorCard({
 
   /** Sends a code to the account's address. `next` is what email_2fa becomes once it is verified. */
   async function sendEmailCode(next: boolean) {
+    if (busy) return;
     if (!user.email) {
       setError("This account has no email address to send a code to.");
       return;
@@ -190,7 +192,7 @@ export default function TwoFactorCard({
   }
 
   async function confirmEmailCode(next: boolean) {
-    if (code.length !== 6 || busy || !user.email) return;
+    if (!isEmailOtp(code) || busy || !user.email) return;
     setBusy(true);
     setError("");
     try {
@@ -201,7 +203,7 @@ export default function TwoFactorCard({
         token: code,
         type: "email",
       });
-      if (verifyError) throw verifyError;
+      if (verifyError) throw new Error(emailOtpError(verifyError));
       const { error: rpcError } = await sb.rpc("set_email_2fa", {
         p_enabled: next,
       });
@@ -246,7 +248,7 @@ export default function TwoFactorCard({
   }
 
   async function confirmTotp(factorId: string) {
-    if (code.length !== 6 || busy) return;
+    if (!isTotp(code) || busy) return;
     setBusy(true);
     setError("");
     try {
@@ -345,20 +347,20 @@ export default function TwoFactorCard({
     URL.revokeObjectURL(url);
   }
 
-  /** The six-digit box, shared by both methods. */
-  const codeField = (onSubmit: () => void) => (
+  /** Email codes can be longer than authenticator codes. */
+  const codeField = (onSubmit: () => void, emailCode = false) => (
     <label className="email-field" style={{ margin: 0 }}>
       <KeyRound size={15} />
       <input
         value={code}
-        onChange={(event) => setCode(event.target.value.replace(/\D/g, "").slice(0, 6))}
+        onChange={(event) => setCode(normalizeOtp(event.target.value))}
         onKeyDown={(event) => {
-          if (event.key === "Enter") onSubmit();
+          if (event.key === "Enter") { event.preventDefault(); onSubmit(); }
         }}
         inputMode="numeric"
         autoComplete="one-time-code"
-        placeholder="000000"
-        aria-label="Six-digit code"
+        placeholder={emailCode ? "Email code" : "000000"}
+        aria-label={emailCode ? "Code from your email" : "Six-digit code"}
         style={{ letterSpacing: "0.3em", fontFamily: "GeistMono, monospace" }}
       />
     </label>
@@ -436,18 +438,18 @@ export default function TwoFactorCard({
       {view.step === "email" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 14, fontSize: 13 }}>
           <p style={{ color: "var(--muted-foreground)", lineHeight: 1.6 }}>
-            We sent a six-digit code to{" "}
+            We sent a code to{" "}
             <strong style={{ color: "var(--foreground)" }}>{user.email}</strong>. Enter it
-            below to {view.data.next ? "turn email codes on" : "turn email codes off"}.
+            in full below to {view.data.next ? "turn email codes on" : "turn email codes off"}.
           </p>
-          {codeField(() => void confirmEmailCode(view.data.next))}
+          {codeField(() => void confirmEmailCode(view.data.next), true)}
           <div style={{ display: "flex", gap: 10 }}>
             <button
               type="button"
               className="button"
               style={{ flex: 1 }}
               onClick={() => void confirmEmailCode(view.data.next)}
-              disabled={busy || code.length !== 6}
+              disabled={busy || !isEmailOtp(code)}
             >
               {busy ? <Loader2 size={14} className="spin" /> : <Check size={14} />} Verify
             </button>
@@ -518,7 +520,7 @@ export default function TwoFactorCard({
               className="button"
               style={{ flex: 1 }}
               onClick={() => void confirmTotp(view.data.factorId)}
-              disabled={busy || code.length !== 6}
+              disabled={busy || !isTotp(code)}
             >
               {busy ? <Loader2 size={14} className="spin" /> : <Check size={14} />} Verify
             </button>

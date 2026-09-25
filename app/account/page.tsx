@@ -11,6 +11,7 @@ import { useTheme } from "@/lib/theme";
 import { product } from "@/lib/product";
 import { startCheckout } from "@/lib/checkout";
 import DeviceCard from "@/components/DeviceCard";
+import TwoFactorCard from "@/components/TwoFactorCard";
 
 export default function AccountPage() {
   const [light, setLight] = useTheme();
@@ -296,6 +297,8 @@ export default function AccountPage() {
                 </div>
 
                 <DeviceCard sb={sb!} user={user} />
+
+                <TwoFactorCard sb={sb!} user={user} />
 
                 {/* Desktop Sync Steps */}
                 <div className="price-card">

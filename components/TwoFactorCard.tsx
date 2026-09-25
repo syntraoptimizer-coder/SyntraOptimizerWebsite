@@ -9,6 +9,7 @@ import {
   KeyRound,
   Loader2,
   Mail,
+  ShieldAlert,
   ShieldCheck,
   Smartphone,
 } from "lucide-react";
@@ -46,7 +47,9 @@ type View =
       remaining: number | null;
       total: number | null;
     }
-  | { step: "on"; method: "email" };
+  | { step: "on"; method: "email" }
+  /** Asked before either factor is removed. `factorId` is present for the authenticator only. */
+  | { step: "confirm-off"; method: "totp" | "email"; factorId?: string };
 
 const row: CSSProperties = {
   display: "flex",
@@ -585,6 +588,71 @@ export default function TwoFactorCard({
         </div>
       )}
 
+      {view.step === "confirm-off" && (
+        <div style={{ display: "flex", flexDirection: "column", gap: 14, fontSize: 13 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              padding: 14,
+              border: "1px solid color-mix(in srgb, var(--destructive, #e5484d) 35%, var(--border))",
+              borderRadius: 10,
+              background: "color-mix(in srgb, var(--destructive, #e5484d) 7%, transparent)",
+            }}
+          >
+            <ShieldAlert
+              size={18}
+              style={{ color: "var(--destructive, #e5484d)", flexShrink: 0, marginTop: 1 }}
+            />
+            <div style={{ lineHeight: 1.6 }}>
+              <strong style={{ display: "block", fontWeight: 550, marginBottom: 4 }}>
+                Turn off two-factor authentication?
+              </strong>
+              <span style={{ color: "var(--muted-foreground)" }}>
+                Your password becomes the only thing protecting this account. Anyone who learns
+                it gets in, including to the PC licence tied to it — and that licence stays bound
+                to its first PC, so it cannot be moved if the account is taken.
+              </span>
+            </div>
+          </div>
+          {view.method === "email" && (
+            <p className="small-note" style={{ margin: 0, letterSpacing: 0, lineHeight: 1.5 }}>
+              We will email you a code first. Proving you can still read that inbox is what stops
+              someone with a stolen password from quietly removing this.
+            </p>
+          )}
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              type="button"
+              className="button"
+              style={{ flex: 1 }}
+              onClick={() => void load()}
+              disabled={busy}
+            >
+              Keep it on
+            </button>
+            <button
+              type="button"
+              className="button"
+              style={{
+                flex: 1,
+                borderColor: "color-mix(in srgb, var(--destructive, #e5484d) 45%, var(--border))",
+                color: "var(--destructive, #e5484d)",
+              }}
+              onClick={() =>
+                view.method === "email"
+                  ? void sendEmailCode(false)
+                  : void turnOffTotp(view.factorId!)
+              }
+              disabled={busy}
+            >
+              {busy ? <Loader2 size={14} className="spin" /> : null}
+              {view.method === "email" ? "Send the code" : "Turn it off"}
+            </button>
+          </div>
+        </div>
+      )}
+
       {view.step === "on" && view.method === "email" && (
         <div style={{ display: "flex", flexDirection: "column", gap: 10, fontSize: 13 }}>
           <div style={row}>
@@ -607,7 +675,7 @@ export default function TwoFactorCard({
               type="button"
               className="button"
               style={{ flex: 1 }}
-              onClick={() => void sendEmailCode(false)}
+              onClick={() => setView({ step: "confirm-off", method: "email" })}
               disabled={busy}
             >
               {busy ? <Loader2 size={14} className="spin" /> : null} Turn off
@@ -667,7 +735,9 @@ export default function TwoFactorCard({
             <button
               type="button"
               className="button"
-              onClick={() => void turnOffTotp(view.factorId)}
+              onClick={() =>
+                setView({ step: "confirm-off", method: "totp", factorId: view.factorId })
+              }
               disabled={busy}
             >
               Turn off

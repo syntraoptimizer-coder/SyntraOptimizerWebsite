@@ -1,9 +1,11 @@
 "use client";
 import { useState, type FormEvent, type ReactNode } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { ArrowRight, CheckCircle2, CircleAlert, Eye, EyeOff, Loader2, Lock, Mail } from "lucide-react";
+import { ArrowRight, CheckCircle2, CircleAlert, Eye, EyeOff, KeyRound, Loader2, Lock, Mail, ShieldCheck } from "lucide-react";
 
-type Mode = "signin" | "signup" | "forgot" | "link" | "recovery";
+type Mode = "signin" | "signup" | "forgot" | "link" | "recovery" | "2fa-email" | "2fa-totp" | "2fa-backup";
+/** The three steps that hold a sign-in until a second factor answers. */
+const SECOND_FACTOR: Mode[] = ["2fa-email", "2fa-totp", "2fa-backup"];
 
 const MIN_PASSWORD = 8;
 
@@ -11,6 +13,9 @@ const HEADINGS: Record<Exclude<Mode, "signin" | "signup">, { title: string; text
   forgot: { title: "Reset your password", text: "Enter your email and we’ll send you a link to choose a new password." },
   link: { title: "Sign in with an email link", text: "We’ll email you a one-time link — no password needed." },
   recovery: { title: "Choose a new password", text: "Pick a new password for your Velyro account." },
+  "2fa-email": { title: "Check your email", text: "We sent a six-digit code to your address. Enter it to finish signing in." },
+  "2fa-totp": { title: "Two-factor authentication", text: "Enter the six-digit code from your authenticator app." },
+  "2fa-backup": { title: "Use a recovery code", text: "Enter one of the codes you saved when you turned two-factor on. Each works once." },
 };
 const SUBMIT: Record<Mode, string> = {
   signin: "Sign in",
@@ -18,6 +23,9 @@ const SUBMIT: Record<Mode, string> = {
   forgot: "Send reset link",
   link: "Email me a sign-in link",
   recovery: "Save new password",
+  "2fa-email": "Verify and sign in",
+  "2fa-totp": "Verify and sign in",
+  "2fa-backup": "Use this code",
 };
 
 function Field({ id, label, action, icon, children }: { id: string; label: string; action?: ReactNode; icon: ReactNode; children: ReactNode }) {
@@ -52,6 +60,7 @@ export default function EmailPasswordForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [otp, setOtp] = useState("");
   const [show, setShow] = useState(false);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ ok: boolean; text: string } | null>(null);
@@ -62,10 +71,47 @@ export default function EmailPasswordForm({
     if (recovering) setMode("recovery");
   }
 
-  const go = (next: Mode) => { setMode(next); setMessage(null); setPassword(""); setConfirm(""); };
+  const go = (next: Mode) => {
+    // A password alone already produced a session; abandoning the question must not keep it.
+    if (SECOND_FACTOR.includes(mode) && !SECOND_FACTOR.includes(next)) void sb.auth.signOut();
+    setMode(next); setMessage(null); setPassword(""); setConfirm(""); setOtp("");
+  };
   const ok = (text: string) => setMessage({ ok: true, text });
   const fail = (text: string) => setMessage({ ok: false, text });
   const origin = () => window.location.origin;
+
+  /**
+   * Holds the sign-in if this account asked for a second factor. Returns true when it did, meaning the
+   * form has switched to a code step and submit() should stop.
+   *
+   * The two kinds are checked differently on purpose. TOTP is a real Supabase factor, so the session
+   * exists but stays at aal1 until it is answered — getAuthenticatorAssuranceLevel() says so. An email
+   * code is not a factor type at all, so the intent has to be read from security_prefs.
+   */
+  async function requireSecondFactor(address: string): Promise<boolean> {
+    const { data: aal } = await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2") {
+      setOtp("");
+      setMode("2fa-totp");
+      setMessage(null);
+      return true;
+    }
+
+    const { data: wanted } = await sb.rpc("email_2fa_required", { p_email: address });
+    if (wanted !== true) return false;
+
+    // Unlike TOTP, nothing in the session records that a code is still owed. Drop it, so that closing
+    // the tab at this step is not a way past the question.
+    await sb.auth.signOut();
+    const { error } = await sb.auth.signInWithOtp({ email: address, options: { shouldCreateUser: false } });
+    if (error) {
+      fail(error.status === 429 ? "A code was just sent. Wait a minute before asking again." : "We couldn't send your sign-in code. Please try again.");
+      return true;
+    }
+    setOtp("");
+    setMode("2fa-email");
+    return true;
+  }
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -83,6 +129,7 @@ export default function EmailPasswordForm({
           if (error.status === 429) return fail("Too many attempts. Please wait a moment.");
           return fail("Incorrect email or password.");
         }
+        if (await requireSecondFactor(email.trim())) return;
         onDone?.();
       } else if (mode === "signup") {
         const { data, error } = await sb.auth.signUp({
@@ -102,6 +149,21 @@ export default function EmailPasswordForm({
         const { error } = await sb.auth.signInWithOtp({ email: email.trim(), options: { emailRedirectTo: `${origin()}/account` } });
         if (error) return fail(error.status === 429 ? "An email was just sent. Wait a minute before asking again." : "We couldn’t send the link. Check your email address.");
         ok("Check your inbox for a secure sign-in link.");
+      } else if (mode === "2fa-email") {
+        const { error } = await sb.auth.verifyOtp({ email: email.trim(), token: otp, type: "email" });
+        if (error) { setOtp(""); return fail("That code didn't match. Check your inbox and try again."); }
+        onDone?.();
+      } else if (mode === "2fa-totp") {
+        const { data: factors } = await sb.auth.mfa.listFactors();
+        const factorId = factors?.totp[0]?.id;
+        if (!factorId) return fail("No authenticator app is set up on this account.");
+        const { error } = await sb.auth.mfa.challengeAndVerify({ factorId, code: otp });
+        if (error) { setOtp(""); return fail("That code didn't match. Check your authenticator and try again."); }
+        onDone?.();
+      } else if (mode === "2fa-backup") {
+        const { error } = await sb.auth.mfa.recoveryCodes.verify({ code: otp.trim() });
+        if (error) { setOtp(""); return fail("That recovery code was not accepted. Each code works only once."); }
+        onDone?.();
       } else {
         const { error } = await sb.auth.updateUser({ password });
         if (error) return fail("Your password could not be updated. Open the reset link from your email again.");
@@ -114,7 +176,8 @@ export default function EmailPasswordForm({
   }
 
   const tabbed = mode === "signin" || mode === "signup";
-  const needsEmail = mode !== "recovery";
+  const secondFactor = SECOND_FACTOR.includes(mode);
+  const needsEmail = mode !== "recovery" && !secondFactor;
   const needsPassword = mode === "signin" || mode === "signup" || mode === "recovery";
   const needsConfirm = mode === "signup" || mode === "recovery";
   const heading = tabbed ? null : HEADINGS[mode];
@@ -165,6 +228,26 @@ export default function EmailPasswordForm({
         </Field>
       )}
 
+      {secondFactor && (
+        <Field
+          id="ep-otp"
+          label={mode === "2fa-backup" ? "Recovery code" : "Six-digit code"}
+          icon={mode === "2fa-backup" ? <KeyRound size={16} /> : <ShieldCheck size={16} />}
+        >
+          <input
+            id="ep-otp"
+            type="text"
+            inputMode={mode === "2fa-backup" ? "text" : "numeric"}
+            autoComplete="one-time-code"
+            autoFocus
+            placeholder={mode === "2fa-backup" ? "xxxx-xxxx" : "000000"}
+            value={otp}
+            onChange={(e) => setOtp(mode === "2fa-backup" ? e.target.value.slice(0, 32) : e.target.value.replace(/\D/g, "").slice(0, 6))}
+            required
+          />
+        </Field>
+      )}
+
       {message && (
         <p role={message.ok ? "status" : "alert"} className={message.ok ? "ep-msg ok" : "ep-msg err"}>
           {message.ok ? <CheckCircle2 size={16} /> : <CircleAlert size={16} />}
@@ -180,6 +263,22 @@ export default function EmailPasswordForm({
 
       {mode === "signin" && (
         <button type="button" className="ep-alt" onClick={() => go("link")}>Email me a sign-in link instead</button>
+      )}
+
+      {mode === "2fa-totp" && (
+        <button type="button" className="ep-alt" onClick={() => { setMode("2fa-backup"); setOtp(""); setMessage(null); }}>
+          Lost your phone? Use a recovery code
+        </button>
+      )}
+      {mode === "2fa-backup" && (
+        <button type="button" className="ep-alt" onClick={() => { setMode("2fa-totp"); setOtp(""); setMessage(null); }}>
+          Back to the authenticator code
+        </button>
+      )}
+      {mode === "2fa-email" && (
+        <button type="button" className="ep-alt" onClick={() => void requireSecondFactor(email.trim())} disabled={busy}>
+          Didn&apos;t get it? Send another code
+        </button>
       )}
     </form>
   );

@@ -71,6 +71,17 @@ const choice: CSSProperties = {
 const message = (error: unknown, fallback: string) =>
   error instanceof Error && error.message ? error.message : fallback;
 
+/**
+ * Whether this failure means "recovery codes are off for this project" rather than "that call went
+ * wrong". Recovery codes are a recent Supabase feature and are not enabled everywhere; GoTrue answers
+ * "MFA enroll is disabled for recovery codes", and auth-js has its own guard for the experimental flag.
+ * Matching on the wording is unlovely, but neither carries a machine-readable code.
+ */
+const codesUnavailable = (error: unknown) =>
+  /disabled|not enabled|experimental|unsupported/i.test(
+    error instanceof Error ? error.message : "",
+  );
+
 export default function TwoFactorCard({
   sb,
   user,
@@ -83,6 +94,9 @@ export default function TwoFactorCard({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
+  /** Set once the server has said recovery codes are switched off for this project, so the card stops
+   *  offering a button that cannot work and says what that costs instead. */
+  const [codesBlocked, setCodesBlocked] = useState(false);
 
   /** Works out which view the account's current factors correspond to. Writes no state, so it is safe
    *  to call from an effect that may be cancelled. */
@@ -258,10 +272,14 @@ export default function TwoFactorCard({
       if (codesError) throw codesError;
       setView({ step: "codes", codes: data.codes });
     } catch (err) {
+      const blocked = codesUnavailable(err);
+      setCodesBlocked(blocked);
       await load();
       setError(
-        message(err, "Two-factor is on, but your recovery codes could not be generated.") +
-          " Use \"Generate codes\" below: without them, losing your phone means losing the account.",
+        blocked
+          ? "Two-factor is on, but this project cannot issue recovery codes, so there is no way back in if you lose your phone. Consider using the email code instead."
+          : message(err, "Two-factor is on, but your recovery codes could not be generated.") +
+            " Use \"Generate codes\" below: without them, losing your phone means losing the account.",
       );
     } finally {
       setBusy(false);
@@ -288,8 +306,10 @@ export default function TwoFactorCard({
     try {
       const { data, error: genError } = await sb.auth.mfa.recoveryCodes.regenerate();
       if (genError) throw genError;
+      setCodesBlocked(false);
       setView({ step: "codes", codes: data.codes });
     } catch (err) {
+      setCodesBlocked(codesUnavailable(err));
       setError(message(err, "Could not generate new recovery codes."));
     } finally {
       setBusy(false);
@@ -607,7 +627,7 @@ export default function TwoFactorCard({
                 : `${view.remaining} of ${view.total} left`}
             </span>
           </div>
-          {view.remaining === 0 && (
+          {view.remaining === 0 && !codesBlocked && (
             <p
               className="small-note"
               style={{ margin: 0, color: "var(--blue)", letterSpacing: 0 }}
@@ -616,16 +636,30 @@ export default function TwoFactorCard({
               authenticator.
             </p>
           )}
+          {codesBlocked && (
+            <p
+              className="small-note"
+              style={{ margin: "4px 0 0", letterSpacing: 0, lineHeight: 1.5 }}
+            >
+              Recovery codes are not available on this project, so losing your authenticator means
+              losing the account — a licence stays tied to its first PC and cannot be moved. The email
+              code has no such risk: turn this off and pick it instead if that worries you.
+            </p>
+          )}
           <div style={{ display: "flex", gap: 10, marginTop: 4 }}>
             <button
               type="button"
               className="button"
               style={{ flex: 1 }}
               onClick={regenerate}
-              disabled={busy}
+              disabled={busy || codesBlocked}
             >
               {busy ? <Loader2 size={14} className="spin" /> : <KeyRound size={14} />}
-              {view.remaining == null ? "Generate codes" : "New codes"}
+              {codesBlocked
+                ? "Codes unavailable"
+                : view.remaining == null
+                  ? "Generate codes"
+                  : "New codes"}
             </button>
             <button
               type="button"

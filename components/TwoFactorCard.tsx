@@ -241,15 +241,28 @@ export default function TwoFactorCard({
         code,
       });
       if (verifyError) throw verifyError;
-      // The session is now aal2, which is what generating recovery codes requires.
-      const { data, error: codesError } = await sb.auth.mfa.recoveryCodes.generate();
-      if (codesError) throw codesError;
-      setView({ step: "codes", codes: data.codes });
     } catch (err) {
       setError(
         message(err, "That code didn't match. Check your authenticator and try again."),
       );
       setCode("");
+      setBusy(false);
+      return;
+    }
+
+    // Past this point the factor is enrolled and the session is aal2. Anything that fails now is
+    // about the recovery codes, not about the digits just typed — reporting "that didn't match"
+    // would be untrue, and would hide the fact that two-factor is already switched on.
+    try {
+      const { data, error: codesError } = await sb.auth.mfa.recoveryCodes.generate();
+      if (codesError) throw codesError;
+      setView({ step: "codes", codes: data.codes });
+    } catch (err) {
+      await load();
+      setError(
+        message(err, "Two-factor is on, but your recovery codes could not be generated.") +
+          " Use \"Generate codes\" below: without them, losing your phone means losing the account.",
+      );
     } finally {
       setBusy(false);
     }

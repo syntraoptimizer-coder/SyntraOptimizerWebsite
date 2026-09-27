@@ -209,7 +209,7 @@ export default function DownloadPage() {
                     Velyro Optimizer 1.0.0 for Windows
                   </h2>
                   <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: "0 0 24px" }}>
-                    Velyro.Optimizer.Setup.1.0.0.exe · 100.3 MB · Windows 10 / 11 (64-bit)
+                    Velyro.Optimizer.Setup.1.0.0.exe · 100.7 MB · Windows 10 / 11 (64-bit)
                   </p>
 
                   <a

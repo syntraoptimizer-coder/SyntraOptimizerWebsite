@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./resources.css";
 import CookieConsent from "@/components/CookieConsent";
 import CopyGuard from "@/components/CopyGuard";
 import SmoothScroll from "@/components/SmoothScroll";

@@ -94,10 +94,11 @@ export default function DownloadPage() {
 
           <nav aria-label="Main navigation" className={menu ? "nav-links open" : "nav-links"}>
             {(["Features", "Safety", "For you", "Pricing"] as const).map((label) => (
-              <a key={label} href={`/#${label.toLowerCase().replace(" ", "")}`} onClick={() => setMenu(false)}>
+              <a key={label} href={`/#${(label === "For you" ? "profiles" : label.toLowerCase())}`} onClick={() => setMenu(false)}>
                 {label}{["Features", "For you"].includes(label) && <ChevronDown size={12} />}
               </a>
             ))}
+            <a href="/updates">Updates</a><a href="/help">Help</a>
           </nav>
 
           <div className="nav-actions">
@@ -206,10 +207,10 @@ export default function DownloadPage() {
                   </div>
 
                   <h2 style={{ fontSize: 22, fontWeight: 550, letterSpacing: "-0.5px", margin: "0 0 6px" }}>
-                    Velyro Optimizer 1.0.0 for Windows
+                    Velyro Optimizer {product.version} for Windows
                   </h2>
                   <p style={{ fontSize: 13, color: "var(--muted-foreground)", margin: "0 0 24px" }}>
-                    Velyro.Optimizer.Setup.1.0.1.exe · 100.7 MB · Windows 10 / 11 (64-bit)
+                    {product.installerName} · Windows 10 / 11 (64-bit)
                   </p>
 
                   <a

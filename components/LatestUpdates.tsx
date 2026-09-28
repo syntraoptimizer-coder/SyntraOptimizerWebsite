@@ -1,0 +1,4 @@
+import Link from "next/link";
+import { ArrowRight, Sparkles } from 'lucide-react';
+import { updates } from '@/lib/updates';
+export default function LatestUpdates() { const latest = updates[0]; return <section className="section-pad latest-updates" id="updates"><div><span className="eyebrow"><Sparkles size={14}/> WHAT’S NEW</span><h2>Always moving forward.</h2><p>The latest improvements, all in one place.</p><Link className="resource-back" href="/updates">View all updates<ArrowRight size={16}/></Link></div><Link href={`/updates#${latest.id}`} className="latest-update-card"><div className="update-meta"><span>{latest.type}</span><time dateTime={latest.date}>{latest.dateLabel}</time></div><h3>{latest.title}</h3><p>{latest.summary}</p><span className="resource-back">Read the update<ArrowRight size={16}/></span></Link></section>; }

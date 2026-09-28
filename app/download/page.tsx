@@ -246,7 +246,7 @@ export default function DownloadPage() {
                   <h3 style={{ fontSize: 16, fontWeight: 550, margin: "0 0 16px" }}>Getting started</h3>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
                     {[
-                      { step: "01", title: "Run the Installer", desc: "Open Velyro.Optimizer.Setup.1.0.1.exe to install on your PC." },
+                      { step: "01", title: "Run the Installer", desc: "Open Velyro-Optimizer-Setup-1.0.2.exe to install on your PC." },
                       { step: "02", title: "Sign In on Desktop", desc: `In the app sign-in window, use ${user.email} to link your PC.` },
                       { step: "03", title: "Enjoy Optimization", desc: `Your ${plan} profile is automatically unlocked with full system tuning.` },
                     ].map(({ step, title, desc }) => (
